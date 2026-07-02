@@ -30,7 +30,7 @@ export interface TimelineMilestone {
 export const timelineMilestones: TimelineMilestone[] = [
   { dateLabel: '17 déc. 2025', title: 'Demande en mariage' },
   { dateLabel: '14 fév. 2026', title: 'Fiançailles' },
-  { dateLabel: '4 avr. 2026', title: 'Acte de mariage' },
+  { dateLabel: '14 avr. 2026', title: 'Acte de mariage' },
   { dateLabel: '14 nov. 2026', title: 'Le grand jour', highlight: true },
 ]
 
