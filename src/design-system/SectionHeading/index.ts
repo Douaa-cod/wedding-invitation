@@ -1,0 +1,6 @@
+export { SectionMarker } from './SectionMarker'
+export type { SectionMarkerProps } from './SectionMarker'
+export { Eyebrow } from './Eyebrow'
+export type { EyebrowProps } from './Eyebrow'
+export { Heading } from './Heading'
+export type { HeadingProps } from './Heading'

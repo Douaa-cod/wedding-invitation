@@ -1,0 +1,72 @@
+import { useRef, type ReactNode } from 'react'
+import { motion, useInView } from 'framer-motion'
+import { cn } from '@/lib/cn'
+
+export interface PaperCardProps {
+  eyebrow?: string
+  title?: string
+  children: ReactNode
+  className?: string
+  /** Si true, le fond est sombre (pour VideoSection). */
+  dark?: boolean
+}
+
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
+
+/**
+ * Wrapper de section — scroll-animé, fond background-card.png officiel.
+ * Zone sécurisée : px-[22%] pour préserver les ornements floraux gauche/droite.
+ */
+export function PaperCard({ eyebrow, title, children, className, dark }: PaperCardProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, amount: 0.12 })
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40, scale: 0.98 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      transition={{ duration: 1.1, ease: EASE }}
+      className={cn('relative w-full overflow-hidden rounded-2xl', className)}
+      style={{
+        boxShadow:
+          '0 4px 12px rgba(0,0,0,0.10), 0 20px 42px rgba(0,0,0,0.16), 0 48px 80px rgba(0,0,0,0.12)',
+      }}
+    >
+      {!dark && (
+        <img
+          src="/assets/cards/background-card.png"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full"
+          style={{ objectFit: 'cover', display: 'block' }}
+          draggable={false}
+        />
+      )}
+
+      <div className="relative z-10 px-[22%] py-[9%]">
+        {(eyebrow || title) && (
+          <div className="mb-5 text-center">
+            {eyebrow && (
+              <div className="font-sans text-label-xs uppercase tracking-widest text-accent">
+                {eyebrow}
+              </div>
+            )}
+            {title && (
+              <>
+                <div
+                  className="mt-2 font-display text-ink"
+                  style={{ fontSize: 'clamp(1.2rem, 4.5vw, 1.65rem)', lineHeight: 1.2 }}
+                >
+                  {title}
+                </div>
+                <div className="mx-auto mt-2.5 h-px w-7 bg-divider" />
+              </>
+            )}
+          </div>
+        )}
+        {children}
+      </div>
+    </motion.div>
+  )
+}

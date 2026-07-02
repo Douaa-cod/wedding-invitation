@@ -1,0 +1,19 @@
+/**
+ * Primitives d'effets — rayons et ombres relevés dans tout le Brand Book.
+ * Règle constante : les ombres sont toujours chaudes (teinte brun/bronze),
+ * jamais un gris neutre — c'est ce qui donne la matière "papier épais".
+ */
+@theme {
+  --radius-xs: 3px; /* swatches, badges plats */
+  --radius-sm: 4px; /* tuiles de palette, conteneurs de section */
+  --radius-md: 6px; /* boutons, champs de formulaire */
+  --radius-lg: 8px; /* cartes UI */
+  --radius-xl: 10px; /* conteneur "carte premium" */
+  --radius-2xl: 14px; /* cartes wallet de l'invitation */
+  --radius-3xl: 24px; /* cadres du storyboard d'animation */
+  --radius-full: 9999px; /* pills, boutons, badges */
+
+  --shadow-soft: 0 14px 30px -20px rgba(80, 55, 30, 0.4);
+  --shadow-card: 0 24px 50px -24px rgba(80, 55, 30, 0.45);
+  --shadow-frame: 0 22px 46px -22px rgba(80, 55, 30, 0.42);
+}

@@ -1,0 +1,36 @@
+/**
+ * Variantes d'accent — reprend le sélecteur "accentTone" du Brand Book
+ * (bronze | olive | deepsea). Le bronze est la variante par défaut et
+ * n'a donc pas besoin d'override. Activer via : <html data-theme="olive">.
+ *
+ * Ces overrides ne touchent que la couche sémantique : aucun composant
+ * ne doit être modifié pour supporter un changement de variante.
+ */
+[data-theme='olive'] {
+  --color-accent: var(--color-olive);
+  --color-accent-strong: #6e7257;
+  --color-accent-soft: #a3a584;
+}
+
+[data-theme='deepsea'] {
+  --color-accent: var(--color-deep-sea);
+  --color-accent-strong: #15222c;
+  --color-accent-soft: #3a5566;
+}
+
+/**
+ * Variante lake — eau du lac de Tunis, ciel méditerranéen.
+ * Active pour les phases "envelope" et "invitation" (après la vidéo).
+ * L'accent reste bronze/doré (le cuivre chaud contraste magnifiquement
+ * avec le bleu froid du lac — identité visuelle de La Perle du Lac).
+ */
+[data-theme='lake'] {
+  --color-bg: color-mix(in srgb, var(--color-lake-pale) 32%, var(--color-warm-white));
+  --color-surface: color-mix(in srgb, var(--color-lake-pale) 55%, var(--color-warm-white));
+  --color-card: color-mix(in srgb, var(--color-lake-pale) 10%, var(--color-card-white));
+  --color-border: color-mix(in srgb, var(--color-lake-mid) 20%, var(--color-border-default));
+  --color-border-soft: color-mix(in srgb, var(--color-lake-mid) 12%, var(--color-border-soft));
+  --color-border-input: color-mix(in srgb, var(--color-lake-mid) 22%, var(--color-border-input));
+  --color-text-subtle: var(--color-dusk-sky);
+  /* accent (bronze), divider (gold), ink, text restent inchangés */
+}

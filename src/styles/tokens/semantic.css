@@ -1,0 +1,30 @@
+/**
+ * Tokens sémantiques — la SEULE couche que les composants doivent consommer.
+ * Chaque token a un rôle (pas une teinte) : si la marque change de variante
+ * d'accent (cf. theme-variants.css), seuls ces alias bougent, jamais les composants.
+ */
+@theme {
+  --color-bg: var(--color-warm-white);
+  --color-surface: var(--color-linen);
+  --color-card: var(--color-card-white);
+
+  /* --color-border-soft et --color-border-input sont déjà des noms définitifs
+     posés directement dans colors.css : aucune indirection supplémentaire requise. */
+  --color-border: var(--color-border-default);
+
+  --color-accent: var(--color-bronze);
+  --color-accent-strong: var(--color-bronze-deep);
+  --color-accent-soft: var(--color-camel);
+  --color-divider: var(--color-gold);
+
+  --color-ink: var(--color-ink-900);
+  --color-text: var(--color-ink-600);
+  --color-text-muted: var(--color-ink-500);
+  --color-text-faint: var(--color-ink-400);
+  --color-text-subtle: var(--color-ink-300);
+
+  --color-reverse-bg: var(--color-deep-sea);
+  --color-reverse-text: var(--color-linen);
+  --color-reverse-text-muted: var(--color-soft-sand);
+  --color-reverse-accent: var(--color-gold);
+}

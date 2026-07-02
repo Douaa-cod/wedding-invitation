@@ -1,0 +1,54 @@
+/**
+ * Primitives de couleur — valeurs littérales du Brand Book (section 03 "Palette de couleurs").
+ * Ne jamais consommer ces variables directement dans les composants : passer par les
+ * tokens sémantiques (semantic.css). Cette couche est la seule source de vérité chromatique.
+ */
+@theme {
+  /* Neutres minéraux */
+  --color-warm-white: #faf7f2;
+  --color-card-white: #fcfaf6; /* blanc légèrement plus froid utilisé sur les cartes UI */
+  --color-linen: #efe8dd;
+  --color-travertine: #d7ccbc;
+  --color-soft-sand: #cbb39a;
+
+  /* Accent bronze */
+  --color-bronze: #a67c52;
+  --color-bronze-deep: #8a6238; /* état hover / texte sur fond clair pour le bronze */
+  --color-camel: #bc9475;
+
+  /* Doré décoratif (filets, diamants, dividers — distinct du bronze interactif) */
+  --color-gold: #c2a878;
+
+  /* Touches froides */
+  --color-mediterranean-blue: #a7c7d9;
+  --color-olive: #8b8c6f;
+
+  /* Sceau bordeaux — cire rouge profond, teinte classique des invitations de luxe */
+  --color-bordeaux: #8b2436;
+
+  /* Variante lake blue — eau du lac de Tunis, ciel méditerranéen au coucher du soleil.
+     N'écrase pas la palette chaude du Brand Book : ajout pur, utilisé via [data-theme="lake"]. */
+  --color-lake-deep: #1d3a5f; /* fond sombre, nuit sur le lac */
+  --color-lake-mid: #2e6a8e; /* eau profonde */
+  --color-lake-pale: #d6e8f2; /* eau claire, surface de carte */
+  --color-dusk-sky: #4a7fa5; /* ciel au coucher du soleil */
+
+  /* Reverse / nuit */
+  --color-deep-sea: #22313f;
+
+  /* Échelle de texte chaude (du plus sombre au plus clair) */
+  --color-ink-900: #2e2a24;
+  --color-ink-800: #3a352e;
+  --color-ink-700: #5c5346;
+  --color-ink-600: #6e665b;
+  --color-ink-500: #7a7165;
+  --color-ink-400: #8c7b66;
+  --color-ink-300: #a8997f;
+  --color-ink-200: #b6a78f;
+  --color-ink-100: #d8c7af;
+
+  /* Bordures */
+  --color-border-default: #e6dccc;
+  --color-border-soft: #ebe2d4;
+  --color-border-input: #e0d2bc;
+}

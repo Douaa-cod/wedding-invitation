@@ -1,0 +1,7 @@
+/* Ordre important : primitives d'abord, sémantique ensuite (elle référence les primitives). */
+@import './colors.css';
+@import './typography.css';
+@import './effects.css';
+@import './semantic.css';
+@import './theme-variants.css';
+@import './textures.css';
