@@ -7,7 +7,7 @@ export function TributeSection() {
 
         {/* Père de Rachid — cité en premier */}
         <div className="flex flex-col items-center gap-1">
-          <span className="font-display text-base text-ink">Lahcin Oussaih</span>
+          <span className="font-display text-base text-ink">Lahcen Oussaih</span>
           <span className="font-accent text-xs italic text-text-muted">père de Rachid</span>
         </div>
 
