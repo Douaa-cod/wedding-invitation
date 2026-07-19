@@ -15,7 +15,7 @@ import { VenueSection } from './sections/VenueSection'
 import { GiftSection } from './sections/GiftSection'
 import { RSVPSection } from './sections/RSVPSection'
 import { PhotoSection } from './sections/PhotoSection'
-import { ScrollCue } from './sections/ScrollCue'
+import { ScrollTransition } from './sections/ScrollTransition'
 import { FlightJourney } from './sections/FlightJourney'
 
 const CARD_ENTRANCE_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
@@ -28,40 +28,6 @@ const PAPER_SLIDE_STOP_FADE = 0.1 // fondu de sécurité très court à l'arrêt
  * 'entering'  — carte en train de remonter depuis le bas (voir onCardEntranceStart).
  */
 type Stage = 'envelope' | 'entering'
-
-/* ─────────────────────────────────────────────────────
-   Flèche de défilement — discrète, bounce infini,
-   indique à l'invité de continuer à scroller.
-───────────────────────────────────────────────────── */
-function ScrollArrow() {
-  return (
-    <div className="flex justify-center py-0.5" aria-hidden="true">
-      <motion.div
-        animate={{ y: [0, 5, 0] }}
-        transition={{
-          duration: 1.8,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          repeatDelay: 0.4,
-        }}
-        style={{ color: 'var(--color-gold)', opacity: 0.65 }}
-      >
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M6 9l6 6 6-6" />
-        </svg>
-      </motion.div>
-    </div>
-  )
-}
 
 /* ─────────────────────────────────────────────────────
    Bouton son — fixe en bas à droite
@@ -100,6 +66,7 @@ export function InvitationPage() {
   const [stage, setStage] = useState<Stage>('envelope')
   const [envelopeDone, setEnvelopeDone] = useState(false)
   const [cardSettled, setCardSettled] = useState(false)
+  const [contentRevealed, setContentRevealed] = useState(false)
   const journeyRef = useRef<HTMLDivElement>(null)
   const card1Ref = useRef<HTMLDivElement>(null)
   const paperSlideRef = useRef<HTMLAudioElement | null>(null)
@@ -264,25 +231,28 @@ export function InvitationPage() {
             transition={{ duration: entranceDuration, ease: CARD_ENTRANCE_EASE }}
             onAnimationComplete={handleCardEntranceComplete}
           >
-            <CoverSection entering={stage !== 'envelope'} />
+            <CoverSection
+              revealReady={cardSettled}
+              onRevealComplete={() => setContentRevealed(true)}
+            />
           </motion.div>
 
-          <ScrollCue visible={cardSettled} />
+          <ScrollTransition visible={contentRevealed} />
 
-          <CountdownSection />
-          <ScrollArrow />
+          <CountdownSection readyToReveal={contentRevealed} />
+          <ScrollTransition />
           <HistorySection />
-          <ScrollArrow />
+          <ScrollTransition />
           <ProgramSection />
-          <ScrollArrow />
+          <ScrollTransition />
           <VenueSection />
-          <ScrollArrow />
+          <ScrollTransition />
           <GiftSection />
-          <ScrollArrow />
+          <ScrollTransition />
           <RSVPSection />
-          <ScrollArrow />
+          <ScrollTransition />
           <TributeSection />
-          <ScrollArrow />
+          <ScrollTransition />
           <PhotoSection />
         </div>
       </main>

@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, type KeyboardEvent } from 'react'
+import { useLayoutEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { motion } from 'framer-motion'
 import gsap from 'gsap'
 import { useReducedMotion } from '@/motion/useReducedMotion'
@@ -58,6 +58,7 @@ const ENVELOPE_OPEN_DURATION = 0.8 // durée du fondu du rabat
 const ENVELOPE_EXIT_DURATION = 0.95 // dans la plage demandée 800–1100ms
 const CARD_ENTRANCE_OVERLAP = 0.25 // dans la plage demandée 200–300ms
 const AUDIO_FADE_DURATION = 0.3 // dans la plage demandée 250–400ms
+const FRONT_TO_OPEN_CROSSFADE = 0.12 // dans la plage demandée 100–150ms
 
 /* Formule de taille/position partagée par les deux calques (dos et rabat) —
    doivent rester pixel-identiques pour former visuellement UNE seule
@@ -72,10 +73,13 @@ const ENVELOPE_BOX_STYLE = {
 export function LuxuryEnvelope({ onSealTap, onCardEntranceStart, onSequenceComplete }: LuxuryEnvelopeProps) {
   const reducedMotion = useReducedMotion()
 
+  const [assetsReady, setAssetsReady] = useState(false)
+
   const backLayerRef = useRef<HTMLDivElement>(null)
   const bodyRef    = useRef<HTMLImageElement>(null)
   const envBackRef = useRef<HTMLDivElement>(null)
   const frontRef   = useRef<HTMLImageElement>(null)
+  const openRef    = useRef<HTMLImageElement>(null)
   const frontLayerRef = useRef<HTMLDivElement>(null)
   const envFrontRef = useRef<HTMLDivElement>(null)
   const sealRef    = useRef<HTMLDivElement>(null)
@@ -101,11 +105,33 @@ export function LuxuryEnvelope({ onSealTap, onCardEntranceStart, onSequenceCompl
     }
   }, [])
 
+  /* Précharge les trois images de l'enveloppe (fermée, mi-ouverte, ouverte) et
+     n'autorise le tap sur le sceau qu'une fois les trois décodées — condition
+     nécessaire pour que le crossfade fermée→mi-ouverte (voir handleTap) soit
+     instantané, sans flash blanc ni frame vide. */
   useLayoutEffect(() => {
-    new Image().src = '/assets/envelope/envelope-body.png'
+    let cancelled = false
+    let loaded = 0
+    const sources = [
+      '/assets/envelope/envelope-front.png',
+      '/assets/envelope/envelope-open.png',
+      '/assets/envelope/envelope-body.png',
+    ]
+    sources.forEach((src) => {
+      const img = new Image()
+      img.onload = img.onerror = () => {
+        loaded += 1
+        if (!cancelled && loaded === sources.length) setAssetsReady(true)
+      }
+      img.src = src
+    })
+    return () => { cancelled = true }
+  }, [])
 
+  useLayoutEffect(() => {
     gsap.set(bodyRef.current,   { opacity: 0 })
     gsap.set(frontRef.current,  { opacity: 1 })
+    gsap.set(openRef.current,   { opacity: 0 })
     /* Le sceau overlay (wax-seal.jpeg) reste invisible en idle — il ne sert
        qu'à l'effet de chute au clic (voir handleTap). Le battement en idle
        cible sealPulseRef, une fenêtre recadrée sur cette même image front.png :
@@ -220,6 +246,7 @@ export function LuxuryEnvelope({ onSealTap, onCardEntranceStart, onSequenceCompl
     const exitDuration = ENVELOPE_EXIT_DURATION * scale
     const entranceOverlap = CARD_ENTRANCE_OVERLAP * scale
     const audioFade = AUDIO_FADE_DURATION * scale
+    const crossfadeDuration = FRONT_TO_OPEN_CROSSFADE * scale
     const sealRotation = reducedMotion ? 0 : SEAL_FALL_ROTATION
 
     const tl = gsap.timeline({ onComplete: () => { openingTlRef.current = null } })
@@ -252,9 +279,16 @@ export function LuxuryEnvelope({ onSealTap, onCardEntranceStart, onSequenceCompl
     }, `fallStart+=${fallDuration * SEAL_OPACITY_HOLD}`)
     .addLabel('envelopeOpen', `fallStart+=${fallDuration * FRONT_FADE_START_RATIO}`)
 
+    /* 8. Dès l'instant où le sceau commence à tomber (même label que le début
+       de la chute), l'enveloppe fermée cède la place à l'enveloppe mi-ouverte
+       via un très bref fondu croisé — les deux images se superposent le temps
+       du crossfade, pixel-alignées, pour que la bascule soit invisible. */
+    tl.to(frontRef.current, { opacity: 0, duration: crossfadeDuration, ease: 'sine.inOut' }, 'fallStart')
+      .to(openRef.current,  { opacity: 1, duration: crossfadeDuration, ease: 'sine.inOut' }, 'fallStart')
+
     /* 9. Le rabat commence à s'ouvrir PENDANT que le sceau tombe encore. Le
        son du sceau s'éteint en fondu au même instant. */
-    tl.to(frontRef.current, { opacity: 0, duration: openDuration, ease: 'power2.inOut' }, 'envelopeOpen')
+    tl.to(openRef.current, { opacity: 0, duration: openDuration, ease: 'power2.inOut' }, 'envelopeOpen')
       .to(bodyRef.current,  { opacity: 1, duration: openDuration * 0.7 }, `envelopeOpen+=${openDuration * 0.15}`)
       .add(() => fadeOutSealSound(audioFade), 'envelopeOpen')
       .addLabel('envelopeGone', `envelopeOpen+=${openDuration}`)
@@ -322,6 +356,13 @@ export function LuxuryEnvelope({ onSealTap, onCardEntranceStart, onSequenceCompl
           <img ref={frontRef} src="/assets/envelope/envelope-front.png" alt="Enveloppe fermée"
             className="absolute inset-0 h-full w-full" style={{ objectFit: 'contain', zIndex: 3 }} draggable={false} />
 
+          {/* [3.1] Enveloppe mi-ouverte — invisible en idle (opacity:0), révélée par
+              un fondu croisé avec [3] dès l'instant où le sceau commence sa chute
+              (voir handleTap). Même conteneur, même position/taille/object-fit que
+              [3] : alignement pixel-perfect garanti, aucun flash possible. */}
+          <img ref={openRef} src="/assets/envelope/envelope-open.png" alt="" aria-hidden="true"
+            className="absolute inset-0 h-full w-full" style={{ objectFit: 'contain', zIndex: 3 }} draggable={false} />
+
           {/* [3.4] Instruction — directement au-dessus du sceau (~12px), une ligne si possible */}
           <div ref={hintRef} aria-hidden="true" style={{
             position: 'absolute', left: '50%', top: `calc(${SEAL_TOP_PCT}% - 12px)`, zIndex: 6,
@@ -368,11 +409,16 @@ export function LuxuryEnvelope({ onSealTap, onCardEntranceStart, onSequenceCompl
             }} draggable={false} />
           </div>
 
-          {/* [5] Zone de tap — plus grande que le sceau visible, ≥44×44px */}
+          {/* [5] Zone de tap — couvre l'intégralité du sceau visible sur
+              envelope-front.png (mesuré ≈39–61% de la hauteur × ≈33–68% de la
+              largeur du conteneur), avec marge de sécurité, tout en garantissant
+              ≥44×44px sur mobile. Totalement transparente : aucune forme visible,
+              ne change ni la taille ni l'apparence du sceau. */}
           <button type="button" aria-label="Ouvrir l’invitation" onClick={handleTap} onKeyDown={handleKeyDown}
-            style={{ position: 'absolute', left: '50%', top: '45%', width: 'max(34%, 44px)', aspectRatio: '1',
-              transform: 'translate(-50%, -50%)', background: 'none', border: 'none',
-              cursor: 'pointer', zIndex: 6, borderRadius: '50%' }} />
+            disabled={!assetsReady}
+            style={{ position: 'absolute', left: '50%', top: '50%', width: 'max(40%, 44px)', height: 'max(28%, 44px)',
+              transform: 'translate(-50%, -50%)', background: 'none', border: 'none', padding: 0,
+              cursor: assetsReady ? 'pointer' : 'default', zIndex: 6 }} />
         </div>
       </motion.div>
     </>

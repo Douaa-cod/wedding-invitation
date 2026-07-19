@@ -17,6 +17,12 @@
      Ne pas réutiliser ailleurs sans validation — hors des 4 familles du Brand Book. */
   --font-script: 'Great Vibes', cursive;
 
+  /* Exception ponctuelle : calligraphie arabe pour la basmala de la carte de
+     couverture uniquement — font-accent (Cormorant Garamond) ne contient pas
+     de glyphes arabes et retomberait sur une police système sans caractère.
+     Amiri (naskh calligraphique) rend correctement les diacritiques (tashkeel). */
+  --font-arabic: 'Amiri', 'Traditional Arabic', serif;
+
   /* Échelle de taille — alignée sur la section "Échelle & hiérarchie" du Brand Book.
      Chaque palier a été augmenté d'au moins 2px (lisibilité, demande explicite) tout
      en préservant l'ordre strict de la hiérarchie — aucun palier ne partage plus la

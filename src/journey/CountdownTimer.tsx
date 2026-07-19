@@ -68,18 +68,34 @@ export function CountdownTimer({ target, variant = 'full', className }: Countdow
   }
 
   const units = [
-    { value: pad(days), label: 'Jours' },
-    { value: pad(hours), label: 'Heures' },
-    { value: pad(minutes), label: 'Min' },
-    { value: pad(seconds), label: 'Sec' },
+    { value: pad(days), label: 'J', wide: true },
+    { value: pad(hours), label: 'H' },
+    { value: pad(minutes), label: 'MIN' },
+    { value: pad(seconds), label: 'SEC' },
   ]
 
   return (
-    <div className={`grid grid-cols-4 gap-2 ${className ?? ''}`}>
-      {units.map(({ value, label }) => (
+    <div className={`grid grid-cols-4 gap-1.5 sm:gap-3 ${className ?? ''}`}>
+      {units.map(({ value, label, wide }) => (
         <div key={label} className="flex flex-col items-center gap-1">
-          <span className="font-display text-2xl leading-none text-ink sm:text-3xl">{value}</span>
-          <span className="font-sans text-label-xs uppercase tracking-widest text-text-subtle">
+          {/* tabular-nums + largeur réservée (3 caractères pour les jours, qui
+              passeront de 3 à 2 chiffres avec le temps) : la mise en page ne
+              bouge jamais quand un chiffre change. */}
+          <span
+            className="font-display leading-none text-ink-700"
+            style={{
+              fontSize: 'clamp(1.6rem, 7vw, 2.2rem)',
+              fontVariantNumeric: 'tabular-nums',
+              minWidth: wide ? '3ch' : '2ch',
+              textAlign: 'center',
+            }}
+          >
+            {value}
+          </span>
+          <span
+            className="font-sans uppercase tracking-widest text-text-subtle"
+            style={{ fontSize: 'clamp(0.55rem, 2.4vw, 0.6875rem)' }}
+          >
             {label}
           </span>
         </div>
