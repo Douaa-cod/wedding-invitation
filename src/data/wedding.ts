@@ -13,9 +13,9 @@ export const weddingDate = new Date('2026-11-14T18:00:00+01:00')
 
 export const couple: Couple = {
   brideFirstName: 'Douaa',
-  brideName: 'Douaa Yazidi',
+  brideName: 'Douaa',
   groomFirstName: 'Rachid',
-  groomName: 'Rachid Oussaih',
+  groomName: 'Rachid',
   dateLabel: '14 · 11 · 2026',
   venueName: 'La Perle du Lac',
   cityLabel: 'Tunis',
