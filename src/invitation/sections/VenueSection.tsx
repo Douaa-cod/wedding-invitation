@@ -9,7 +9,7 @@ export function VenueSection() {
       <dl className="flex flex-col gap-4">
         {venueInfo.map((item) => (
           <div key={item.label}>
-            <dt className="font-sans text-label-2xs uppercase tracking-wide text-accent">{item.label}</dt>
+            <dt className="font-sans text-label-2xs uppercase tracking-wide text-accent-strong">{item.label}</dt>
             <dd className="mt-1 font-body text-sm text-ink">{item.value}</dd>
           </div>
         ))}
@@ -19,7 +19,7 @@ export function VenueSection() {
         href={MAPS_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-6 flex items-center justify-center gap-2 rounded-full border border-accent px-6 py-2.5 font-sans text-label-xs uppercase tracking-wide text-accent-strong transition-colors hover:bg-accent/5"
+        className="mt-6 flex min-h-(--size-tap-min) items-center justify-center gap-2 rounded-full border-[1.5px] border-accent-strong bg-accent/5 px-6 py-3.25 font-sans text-label-xs uppercase tracking-wide text-accent-strong transition-colors hover:bg-accent/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bordeaux"
       >
         Voir la localisation
       </a>

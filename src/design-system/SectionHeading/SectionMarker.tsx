@@ -14,7 +14,7 @@ export function SectionMarker({ index, label, className }: SectionMarkerProps) {
         {index}
       </span>
       <span className="h-px flex-1 bg-border" />
-      <span className="font-sans text-label font-light tracking-widest text-ink-200">
+      <span className="font-sans text-label font-light tracking-widest text-text-subtle">
         {label}
       </span>
     </div>

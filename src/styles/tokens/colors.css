@@ -31,19 +31,24 @@
   --color-lake-deep: #1d3a5f; /* fond sombre, nuit sur le lac */
   --color-lake-mid: #2e6a8e; /* eau profonde */
   --color-lake-pale: #d6e8f2; /* eau claire, surface de carte */
-  --color-dusk-sky: #4a7fa5; /* ciel au coucher du soleil */
+  --color-dusk-sky: #4a7fa5; /* ciel au coucher du soleil — décoratif uniquement (dégradés) */
+  --color-dusk-sky-text: #3c6a8c; /* variante AA, pour tout usage texte (labels sur thème lake) */
 
   /* Reverse / nuit */
   --color-deep-sea: #22313f;
 
-  /* Échelle de texte chaude (du plus sombre au plus clair) */
+  /* Échelle de texte chaude (du plus sombre au plus clair).
+     ink-300/400/500 sont calibrés pour rester AA (>=4.5:1) sur les fonds clairs
+     de la marque (--color-bg, --color-card, blanc) : ce sont les seuls tons de
+     cette échelle utilisables pour du texte porteur de sens (labels, dates,
+     légendes). ink-100/200 restent décoratifs uniquement (ex. Showcase dev). */
   --color-ink-900: #2e2a24;
   --color-ink-800: #3a352e;
   --color-ink-700: #5c5346;
   --color-ink-600: #6e665b;
-  --color-ink-500: #7a7165;
-  --color-ink-400: #8c7b66;
-  --color-ink-300: #a8997f;
+  --color-ink-500: #6f6355;
+  --color-ink-400: #7d6e58;
+  --color-ink-300: #806f59;
   --color-ink-200: #b6a78f;
   --color-ink-100: #d8c7af;
 

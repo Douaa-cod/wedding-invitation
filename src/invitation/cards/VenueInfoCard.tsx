@@ -44,8 +44,13 @@ export function VenueInfoCard() {
 
       {/* Repère */}
       <span
-        className="absolute right-[21%] top-[8.5%] font-sans tracking-wider text-white"
-        style={{ fontSize: '0.5rem', mixBlendMode: 'overlay', zIndex: 2 }}
+        className="absolute right-[21%] top-[8.5%] font-sans tracking-wider"
+        style={{
+          fontSize: '0.75rem',
+          color: 'var(--color-warm-white)',
+          textShadow: '0 1px 3px rgba(0,0,0,0.5)',
+          zIndex: 2,
+        }}
       >
         05 / 07
       </span>
@@ -57,14 +62,14 @@ export function VenueInfoCard() {
       >
         <div className="mb-2 text-center">
           <span className="font-sans text-label-xs uppercase tracking-widest text-accent">Informations</span>
-          <div className="mt-1 font-display text-ink" style={{ fontSize: 'clamp(1.1rem, 4vw, 1.4rem)' }}>Pratique</div>
+          <div className="mt-1 font-display text-ink" style={{ fontSize: 'clamp(1.225rem, 4.2vw, 1.525rem)' }}>Pratique</div>
           <div className="mx-auto mt-1.5 h-px w-7 bg-divider" />
         </div>
 
         <dl className="flex flex-1 flex-col gap-2">
           {venueInfo.map((item) => (
             <div key={item.label}>
-              <dt className="font-sans text-label-2xs uppercase tracking-wide text-text-subtle">{item.label}</dt>
+              <dt className="font-sans text-label-xs uppercase tracking-wide text-text-subtle">{item.label}</dt>
               <dd className="mt-0.5 font-body text-xs text-ink">{item.value}</dd>
             </div>
           ))}

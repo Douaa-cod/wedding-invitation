@@ -5,8 +5,8 @@ import { rsvp } from '@/data/wedding'
 /** Styles partagés pour les inputs — plus fins, plus raffinés */
 const fieldStyle: CSSProperties = {
   width: '100%',
-  padding: '9px 12px',
-  fontSize: '0.72rem',
+  padding: '10px 12px',
+  fontSize: '0.9375rem',
   letterSpacing: '0.03em',
   fontFamily: 'var(--font-body)',
   color: 'var(--color-ink)',
@@ -20,7 +20,7 @@ const fieldStyle: CSSProperties = {
 const labelStyle: CSSProperties = {
   display: 'block',
   marginBottom: '5px',
-  fontSize: '0.6rem',
+  fontSize: '0.75rem',
   letterSpacing: '0.18em',
   textTransform: 'uppercase',
   color: 'var(--color-text-subtle)',
@@ -91,14 +91,14 @@ export function RSVPSection() {
                 onClick={() => setAttending(v)}
                 style={{
                   flex: 1,
-                  padding: '8px',
-                  fontSize: '0.68rem',
+                  padding: '13px',
+                  fontSize: '0.875rem',
                   letterSpacing: '0.14em',
                   textTransform: 'uppercase',
                   fontFamily: 'var(--font-sans)',
                   borderRadius: '4px',
-                  border: `1px solid ${attending === v ? 'var(--color-bronze)' : 'color-mix(in srgb, var(--color-bronze) 22%, transparent)'}`,
-                  background: attending === v ? 'var(--color-bronze)' : 'transparent',
+                  border: `1px solid ${attending === v ? 'var(--color-bronze-deep)' : 'color-mix(in srgb, var(--color-bronze) 22%, transparent)'}`,
+                  background: attending === v ? 'var(--color-bronze-deep)' : 'transparent',
                   color: attending === v ? 'var(--color-warm-white)' : 'var(--color-accent-strong)',
                   cursor: 'pointer',
                   transition: 'all 0.2s',
@@ -144,21 +144,21 @@ export function RSVPSection() {
           type="submit"
           style={{
             marginTop: '4px',
-            padding: '12px 24px',
+            padding: '15px 24px',
             width: '100%',
-            fontSize: '0.68rem',
+            fontSize: '0.875rem',
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
             fontFamily: 'var(--font-sans)',
             color: 'var(--color-warm-white)',
-            background: 'var(--color-bronze)',
+            background: 'var(--color-bronze-deep)',
             border: 'none',
             borderRadius: '9999px',
             cursor: 'pointer',
             transition: 'background 0.25s',
           }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-bronze-deep)' }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'var(--color-bronze)' }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-bronze)' }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'var(--color-bronze-deep)' }}
         >
           {rsvp.ctaLabel}
         </button>

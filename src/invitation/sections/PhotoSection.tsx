@@ -43,7 +43,7 @@ export function PhotoSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}
           className="font-display text-ink"
-          style={{ fontSize: 'clamp(1.15rem, 4.5vw, 1.6rem)', lineHeight: 1.25 }}
+          style={{ fontSize: 'clamp(1.275rem, 4.7vw, 1.725rem)', lineHeight: 1.25 }}
         >
           Notre bonheur commence ici
         </motion.h2>
@@ -80,7 +80,7 @@ export function PhotoSection() {
           {/* Séparateur ornemental */}
           <div className="flex items-center gap-3">
             <span className="h-px bg-divider" style={{ width: '28px', opacity: 0.45 }} />
-            <span style={{ color: 'var(--color-gold)', fontSize: '0.48rem', opacity: 0.75 }}>✦</span>
+            <span style={{ color: 'var(--color-gold)', fontSize: '0.6rem', opacity: 0.75 }}>✦</span>
             <span className="h-px bg-divider" style={{ width: '28px', opacity: 0.45 }} />
           </div>
 
@@ -90,7 +90,7 @@ export function PhotoSection() {
             lang="ar"
             className="font-accent"
             style={{
-              fontSize: 'clamp(0.9rem, 3.4vw, 1.08rem)',
+              fontSize: 'clamp(1.025rem, 3.6vw, 1.205rem)',
               lineHeight: 2.1,
               color: 'var(--color-ink)',
               maxWidth: '90%',
@@ -103,7 +103,7 @@ export function PhotoSection() {
           {/* Traduction française */}
           <p
             className="font-accent italic text-text-muted"
-            style={{ fontSize: '0.78rem', lineHeight: 1.95, maxWidth: '86%' }}
+            style={{ fontSize: '0.9rem', lineHeight: 1.95, maxWidth: '86%' }}
           >
             « Et parmi Ses signes, Il a créé de vous, pour vous, des épouses afin que vous trouviez auprès d'elles la tranquillité. Et Il a mis entre vous affection et miséricorde. »
           </p>
@@ -111,7 +111,7 @@ export function PhotoSection() {
           {/* Référence */}
           <span
             className="font-sans uppercase tracking-widest"
-            style={{ fontSize: '0.6rem', color: 'var(--color-bronze)', opacity: 0.75 }}
+            style={{ fontSize: '0.75rem', color: 'var(--color-accent-strong)', opacity: 0.85 }}
           >
             Sourate Ar-Rûm (30:21)
           </span>

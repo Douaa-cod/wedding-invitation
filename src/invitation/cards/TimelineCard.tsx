@@ -21,7 +21,7 @@ export function TimelineCard() {
               )}
             </div>
             <div className="pb-1">
-              <div className="font-sans text-label-2xs uppercase tracking-wide text-accent">
+              <div className="font-sans text-label-2xs uppercase tracking-wide text-accent-strong">
                 {milestone.dateLabel}
               </div>
               <div

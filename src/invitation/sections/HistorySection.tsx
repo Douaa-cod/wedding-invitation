@@ -44,16 +44,16 @@ export function HistorySection() {
               <div className="pb-2 pt-0.5">
                 {/* Date avec ornements dorés */}
                 <div className="flex items-center gap-1.5">
-                  <span style={{ color: 'var(--color-gold)', fontSize: '0.52rem' }}>✦</span>
-                  <span className="font-sans text-label-2xs uppercase tracking-wider text-accent">
+                  <span style={{ color: 'var(--color-gold)', fontSize: '0.65rem' }}>✦</span>
+                  <span className="font-sans text-label-2xs uppercase tracking-wider text-accent-strong">
                     {milestone.dateLabel}
                   </span>
-                  <span style={{ color: 'var(--color-gold)', fontSize: '0.52rem' }}>✦</span>
+                  <span style={{ color: 'var(--color-gold)', fontSize: '0.65rem' }}>✦</span>
                 </div>
                 {/* Titre agrandi */}
                 <div
                   className="mt-1.5 font-display text-ink"
-                  style={{ fontSize: 'clamp(1rem, 3.8vw, 1.2rem)', lineHeight: 1.2, fontWeight: 400 }}
+                  style={{ fontSize: 'clamp(1.125rem, 4vw, 1.325rem)', lineHeight: 1.2, fontWeight: 400 }}
                 >
                   {milestone.title}
                 </div>
@@ -64,7 +64,7 @@ export function HistorySection() {
               /* ─── Jalon standard ─── */
               <div className="pb-1">
                 <div className={cn(
-                  'font-sans text-label-2xs uppercase tracking-wide text-accent',
+                  'font-sans text-label-2xs uppercase tracking-wide text-accent-strong',
                 )}>
                   {milestone.dateLabel}
                 </div>

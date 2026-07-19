@@ -77,7 +77,7 @@ export function VideoOpening({ onStart }: VideoOpeningProps) {
         <motion.div variants={reducedMotion ? undefined : item}>
           <h1
             className="font-display font-normal text-white"
-            style={{ fontSize: 'clamp(2.2rem, 8vw, 3.5rem)', lineHeight: 1.06 }}
+            style={{ fontSize: 'clamp(2.325rem, 8.2vw, 3.625rem)', lineHeight: 1.06 }}
           >
             {couple.brideFirstName}{' '}
             <em className="font-normal italic" style={{ color: 'var(--color-gold)' }}>
@@ -109,7 +109,7 @@ export function VideoOpening({ onStart }: VideoOpeningProps) {
           <CountdownTimer
             target={weddingDate}
             variant="compact"
-            className="text-center text-white/45"
+            className="text-center text-white/70"
           />
         </motion.div>
       </motion.div>

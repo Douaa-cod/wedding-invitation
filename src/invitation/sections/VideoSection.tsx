@@ -56,7 +56,7 @@ export function VideoSection() {
           <div className="relative flex flex-col items-center gap-4">
             <h2
               className="font-display font-normal text-warm-white"
-              style={{ fontSize: 'clamp(1.8rem, 7vw, 2.8rem)' }}
+              style={{ fontSize: 'clamp(1.925rem, 7.2vw, 2.925rem)' }}
             >
               Notre ciel
             </h2>

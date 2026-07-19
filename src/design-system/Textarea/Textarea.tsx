@@ -15,7 +15,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       <div className="flex flex-col gap-2">
         <label
           htmlFor={textareaId}
-          className="font-sans text-label-2xs uppercase tracking-wide text-text-subtle"
+          className="font-sans text-label-xs uppercase tracking-wide text-text-subtle"
         >
           {label}
         </label>
@@ -24,7 +24,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           id={textareaId}
           rows={rows}
           className={cn(
-            'resize-none rounded-md border border-border-input bg-white px-[14px] py-[13px] font-body text-sm text-ink placeholder:font-body placeholder:italic placeholder:text-text-subtle focus:border-accent focus:outline-none',
+            'resize-none rounded-md border border-border-input bg-white px-[14px] py-[13px] font-body text-sm text-ink placeholder:font-body placeholder:italic placeholder:text-text-subtle focus:border-accent focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-bordeaux',
             className,
           )}
           {...props}

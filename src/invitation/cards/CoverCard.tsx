@@ -61,25 +61,25 @@ export function CoverCard() {
         className="absolute inset-x-0 bottom-0 flex flex-col items-center text-center"
         style={{ top: '52%', padding: '3% 20% 6%', zIndex: 1 }}
       >
-        <span className="font-sans text-label-xs uppercase tracking-widest text-dusk-sky">
+        <span className="font-sans text-label-xs uppercase tracking-widest text-dusk-sky-text">
           Tu es invité(e) au mariage de
         </span>
 
         <div className="mt-2 flex flex-col items-center gap-0.5">
-          <span className="font-display leading-tight text-ink" style={{ fontSize: 'clamp(1.1rem, 4vw, 1.5rem)' }}>
+          <span className="font-display leading-tight text-ink" style={{ fontSize: 'clamp(1.225rem, 4.2vw, 1.625rem)' }}>
             {couple.groomFirstName} Oussaih
           </span>
-          <span className="font-accent italic" style={{ fontSize: 'clamp(1.3rem, 5vw, 1.7rem)', color: 'var(--color-gold)' }}>
+          <span className="font-accent italic" style={{ fontSize: 'clamp(1.425rem, 5.2vw, 1.825rem)', color: 'var(--color-gold)' }}>
             &amp;
           </span>
-          <span className="font-display leading-tight text-ink" style={{ fontSize: 'clamp(1.1rem, 4vw, 1.5rem)' }}>
+          <span className="font-display leading-tight text-ink" style={{ fontSize: 'clamp(1.225rem, 4.2vw, 1.625rem)' }}>
             {couple.brideFirstName} Yazidi
           </span>
         </div>
 
         <div className="my-2 h-px w-8 bg-divider" />
 
-        <time dateTime="2026-11-14" className="font-display text-ink" style={{ fontSize: 'clamp(1.5rem, 6vw, 2rem)', lineHeight: 1 }}>
+        <time dateTime="2026-11-14" className="font-display text-ink" style={{ fontSize: 'clamp(1.625rem, 6.2vw, 2.125rem)', lineHeight: 1 }}>
           14 Novembre 2026
         </time>
 
@@ -89,7 +89,7 @@ export function CoverCard() {
 
         <p
           className="mt-2 font-accent italic text-text-faint"
-          style={{ fontSize: '0.66rem', lineHeight: 1.5, maxWidth: '80%' }}
+          style={{ fontSize: '0.8125rem', lineHeight: 1.5, maxWidth: '80%' }}
         >
           {culturalPhrase}
         </p>

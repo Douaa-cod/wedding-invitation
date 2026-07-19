@@ -24,8 +24,8 @@ const CARDS = [CoverCard, TimelineCard, ProgramCard, TributeCard, VenueInfoCard,
 // Vrai portrait sans bordure noire — object-fit:cover remplit parfaitement le conteneur.
 // height = width × (1264/848) = width × 1.491
 const TRACK_STYLE = {
-  '--card-w': 'min(86vw, 360px)',
-  '--card-h': 'calc(var(--card-w) * 1.491)',
+  '--card-w': 'min(90vw, 360px)',
+  '--card-h': 'min(calc(var(--card-w) * 1.491), 78vh)',
   paddingInline: 'calc((100% - var(--card-w)) / 2)',
 } as CSSProperties
 
@@ -182,7 +182,7 @@ export function InvitationCard({ onEnd }: InvitationCardProps = {}) {
           aria-label="Carte précédente"
           disabled={activeIndex === 0}
           onClick={() => scrollToIndex(activeIndex - 1)}
-          className="font-sans text-lg text-accent transition-opacity disabled:opacity-30"
+          className="flex min-h-(--size-tap-min) min-w-(--size-tap-min) items-center justify-center font-sans text-lg text-accent-strong transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bordeaux disabled:opacity-30"
         >
           &larr;
         </button>
@@ -192,7 +192,7 @@ export function InvitationCard({ onEnd }: InvitationCardProps = {}) {
           aria-label="Carte suivante"
           disabled={activeIndex === CARDS.length - 1}
           onClick={() => scrollToIndex(activeIndex + 1)}
-          className="font-sans text-lg text-accent transition-opacity disabled:opacity-30"
+          className="flex min-h-(--size-tap-min) min-w-(--size-tap-min) items-center justify-center font-sans text-lg text-accent-strong transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bordeaux disabled:opacity-30"
         >
           &rarr;
         </button>
@@ -204,7 +204,7 @@ export function InvitationCard({ onEnd }: InvitationCardProps = {}) {
           <button
             type="button"
             onClick={onEnd}
-            className="font-sans text-label-xs uppercase tracking-widest text-accent transition-opacity hover:opacity-65"
+            className="flex min-h-(--size-tap-min) items-center justify-center px-4 font-sans text-label-xs uppercase tracking-widest text-accent-strong transition-opacity hover:opacity-65 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bordeaux"
           >
             ✦ &nbsp;Voir la vidéo&nbsp; ✦
           </button>

@@ -79,7 +79,7 @@ export function CountdownTimer({ target, variant = 'full', className }: Countdow
       {units.map(({ value, label }) => (
         <div key={label} className="flex flex-col items-center gap-1">
           <span className="font-display text-2xl leading-none text-ink sm:text-3xl">{value}</span>
-          <span className="font-sans text-label-2xs uppercase tracking-widest text-text-subtle">
+          <span className="font-sans text-label-xs uppercase tracking-widest text-text-subtle">
             {label}
           </span>
         </div>

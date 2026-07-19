@@ -9,23 +9,31 @@ export interface PaperCardProps {
   className?: string
   /** Si true, le fond est sombre (pour VideoSection). */
   dark?: boolean
+  /**
+   * Si true, ignore le fondu déclenché au scroll (useInView) et affiche la
+   * carte immédiatement — utilisé par CoverSection, dont la révélation est
+   * orchestrée par l'extraction hors de l'enveloppe, pas par le scroll.
+   */
+  skipScrollReveal?: boolean
 }
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 /**
  * Wrapper de section — scroll-animé, fond background-card.png officiel.
- * Zone sécurisée : px-[22%] pour préserver les ornements floraux gauche/droite.
+ * Zone sécurisée : px-[20%] py-[7%] pour préserver les ornements floraux
+ * (même zone que CardShell, qui consomme le même visuel).
  */
-export function PaperCard({ eyebrow, title, children, className, dark }: PaperCardProps) {
+export function PaperCard({ eyebrow, title, children, className, dark, skipScrollReveal }: PaperCardProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.12 })
+  const revealed = skipScrollReveal || isInView
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 40, scale: 0.98 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      initial={skipScrollReveal ? false : { opacity: 0, y: 40, scale: 0.98 }}
+      animate={revealed ? { opacity: 1, y: 0, scale: 1 } : {}}
       transition={{ duration: 1.1, ease: EASE }}
       className={cn('relative w-full overflow-hidden rounded-2xl', className)}
       style={{
@@ -44,7 +52,7 @@ export function PaperCard({ eyebrow, title, children, className, dark }: PaperCa
         />
       )}
 
-      <div className="relative z-10 px-[22%] py-[9%]">
+      <div className="relative z-10 px-[20%] py-[7%]">
         {(eyebrow || title) && (
           <div className="mb-5 text-center">
             {eyebrow && (
@@ -55,8 +63,8 @@ export function PaperCard({ eyebrow, title, children, className, dark }: PaperCa
             {title && (
               <>
                 <div
-                  className="mt-2 font-display text-ink"
-                  style={{ fontSize: 'clamp(1.2rem, 4.5vw, 1.65rem)', lineHeight: 1.2 }}
+                  className="mt-2 font-script text-ink"
+                  style={{ fontSize: 'clamp(1.75rem, 6.2vw, 2.25rem)', lineHeight: 1.3 }}
                 >
                   {title}
                 </div>

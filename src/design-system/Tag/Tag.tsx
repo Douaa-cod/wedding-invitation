@@ -12,9 +12,9 @@ export function Tag({ active = false, className, ...props }: TagProps) {
       type="button"
       aria-pressed={active}
       className={cn(
-        'rounded-full border px-[14px] py-2 font-sans text-label-sm uppercase tracking-label transition-colors duration-300 ease-out',
+        'min-h-(--size-tap-min) rounded-full border px-4 py-3.75 font-sans text-label-sm uppercase tracking-label transition-colors duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bordeaux',
         active
-          ? 'border-accent bg-accent text-warm-white'
+          ? 'border-accent-strong bg-accent-strong text-warm-white'
           : 'border-border-input text-text',
         className,
       )}

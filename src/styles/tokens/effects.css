@@ -16,4 +16,6 @@
   --shadow-soft: 0 14px 30px -20px rgba(80, 55, 30, 0.4);
   --shadow-card: 0 24px 50px -24px rgba(80, 55, 30, 0.45);
   --shadow-frame: 0 22px 46px -22px rgba(80, 55, 30, 0.42);
+
+  --size-tap-min: 44px; /* cible tactile minimale (WCAG 2.5.5/2.5.8) */
 }

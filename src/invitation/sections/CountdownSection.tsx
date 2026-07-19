@@ -7,7 +7,7 @@ export function CountdownSection() {
   return (
     <PaperCard>
       <div className="flex flex-col items-center gap-5 text-center">
-        <p className="font-sans text-label-xs uppercase tracking-widest text-accent">
+        <p className="font-sans text-label-xs uppercase tracking-widest text-accent-strong">
           Le compte à rebours
         </p>
         <CountdownTimer target={weddingDate} variant="full" className="w-full" />

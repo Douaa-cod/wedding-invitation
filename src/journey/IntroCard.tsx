@@ -96,13 +96,13 @@ export function IntroCard({ onDone }: IntroCardProps) {
         <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 2 }}>
           <span
             className="absolute font-sans uppercase tracking-widest text-text-muted"
-            style={{ fontSize: '0.6rem', left: '4%', bottom: '10%' }}
+            style={{ fontSize: '0.75rem', left: '4%', bottom: '10%' }}
           >
             Paris
           </span>
           <span
             className="absolute font-sans uppercase tracking-widest text-text-muted"
-            style={{ fontSize: '0.6rem', right: '3%', bottom: '10%' }}
+            style={{ fontSize: '0.75rem', right: '3%', bottom: '10%' }}
           >
             Tunis
           </span>
@@ -129,7 +129,7 @@ export function IntroCard({ onDone }: IntroCardProps) {
         className="relative z-10 flex flex-col items-center gap-2 text-center"
         style={{ opacity: reducedMotion ? 1 : 0 }}
       >
-        <p className="font-display text-ink" style={{ fontSize: 'clamp(1.5rem, 6vw, 2.2rem)', lineHeight: 1.1 }}>
+        <p className="font-display text-ink" style={{ fontSize: 'clamp(1.625rem, 6.2vw, 2.325rem)', lineHeight: 1.1 }}>
           {couple.brideFirstName}{' '}
           <em className="font-normal italic" style={{ color: 'var(--color-gold)' }}>&amp;</em>{' '}
           {couple.groomFirstName}
@@ -147,7 +147,7 @@ export function IntroCard({ onDone }: IntroCardProps) {
         ref={btnRef}
         type="button"
         onClick={onDone}
-        className="relative z-10 font-sans text-label-xs uppercase tracking-widest text-accent transition-opacity hover:opacity-65"
+        className="relative z-10 flex min-h-(--size-tap-min) items-center font-sans text-label-xs uppercase tracking-widest text-accent-strong transition-opacity hover:opacity-65 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bordeaux"
         style={{ opacity: reducedMotion ? 1 : 0 }}
       >
         Découvrir l'invitation →

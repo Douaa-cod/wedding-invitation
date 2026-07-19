@@ -56,7 +56,7 @@ export function CardShell({
       {index && (
         <span
           className="absolute right-[21%] top-[8.5%] font-sans tracking-wider text-text-subtle"
-          style={{ fontSize: '0.5rem' }}
+          style={{ fontSize: '0.75rem' }}
         >
           {index}
         </span>
@@ -79,7 +79,7 @@ export function CardShell({
               )}
               {title && (
                 <>
-                  <div className="mt-2 font-display leading-tight text-ink" style={{ fontSize: 'clamp(1.25rem, 4.5vw, 1.65rem)' }}>
+                  <div className="mt-2 font-script leading-tight text-ink" style={{ fontSize: 'clamp(1.75rem, 6.2vw, 2.25rem)' }}>
                     {title}
                   </div>
                   <div className="mx-auto mt-2 h-px w-7 bg-divider" />

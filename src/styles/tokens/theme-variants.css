@@ -31,6 +31,6 @@
   --color-border: color-mix(in srgb, var(--color-lake-mid) 20%, var(--color-border-default));
   --color-border-soft: color-mix(in srgb, var(--color-lake-mid) 12%, var(--color-border-soft));
   --color-border-input: color-mix(in srgb, var(--color-lake-mid) 22%, var(--color-border-input));
-  --color-text-subtle: var(--color-dusk-sky);
+  --color-text-subtle: var(--color-dusk-sky-text);
   /* accent (bronze), divider (gold), ink, text restent inchangés */
 }

@@ -15,7 +15,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       <div className="flex flex-col gap-2">
         <label
           htmlFor={selectId}
-          className="font-sans text-label-2xs uppercase tracking-wide text-text-subtle"
+          className="font-sans text-label-xs uppercase tracking-wide text-text-subtle"
         >
           {label}
         </label>
@@ -24,7 +24,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             ref={ref}
             id={selectId}
             className={cn(
-              'w-full appearance-none rounded-md border border-border-input bg-white px-[14px] py-[13px] pr-9 font-body text-sm text-ink focus:border-accent focus:outline-none',
+              'w-full appearance-none rounded-md border border-border-input bg-white px-[14px] py-[13px] pr-9 font-body text-sm text-ink focus:border-accent focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-bordeaux',
               className,
             )}
             {...props}

@@ -10,15 +10,15 @@ import { cn } from '@/lib/cn'
  *   reverse   → pill deep-sea plein (contextes sombres)
  */
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 rounded-full font-sans text-label-sm uppercase tracking-wide transition-colors duration-300 ease-out disabled:pointer-events-none disabled:opacity-40',
+  'inline-flex min-h-(--size-tap-min) items-center justify-center gap-2 rounded-full font-sans text-label-sm uppercase tracking-wide transition-colors duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bordeaux disabled:pointer-events-none disabled:opacity-40',
   {
     variants: {
       variant: {
-        primary: 'bg-accent px-[30px] py-[13px] text-warm-white hover:bg-accent-strong',
+        primary: 'bg-accent-strong px-[30px] py-3.75 text-warm-white hover:bg-accent',
         secondary:
-          'border border-accent px-[28px] py-3 text-accent-strong hover:bg-accent/5',
+          'border border-accent px-[28px] py-3.75 text-accent-strong hover:bg-accent/5',
         text: 'gap-2 px-0 py-1 text-accent-strong hover:gap-3',
-        reverse: 'bg-reverse-bg px-[30px] py-[13px] text-reverse-text hover:bg-deep-sea/90',
+        reverse: 'bg-reverse-bg px-[30px] py-3.75 text-reverse-text hover:bg-deep-sea/90',
       },
     },
     defaultVariants: {

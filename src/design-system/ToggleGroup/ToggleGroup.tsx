@@ -27,9 +27,9 @@ export function ToggleGroup({ options, value, onChange, name, className }: Toggl
             aria-checked={active}
             onClick={() => onChange(option.value)}
             className={cn(
-              'flex-1 rounded-md border px-[11px] py-[11px] text-center font-sans text-label-sm uppercase tracking-label transition-colors duration-300 ease-out',
+              'min-h-(--size-tap-min) flex-1 rounded-md border px-3.5 py-3.5 text-center font-sans text-label-sm uppercase tracking-label transition-colors duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bordeaux',
               active
-                ? 'border-accent bg-accent text-warm-white'
+                ? 'border-accent-strong bg-accent-strong text-warm-white'
                 : 'border-border-input text-text-subtle',
             )}
           >
