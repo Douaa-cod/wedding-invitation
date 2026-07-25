@@ -1,0 +1,101 @@
+/**
+ * Révélation "Informations" — carte Informations uniquement (voir
+ * VenueSection.tsx). Jouée UNE SEULE FOIS, juste après le premier rendu de
+ * la page (cf. useRevealOnMount) — jamais liée au scroll, jamais rejouée
+ * (seul un vrai rechargement de page la rejoue, puisque le composant est
+ * alors remonté depuis zéro).
+ *
+ * Toutes les valeurs (opacity, transform, blur) sont volontairement
+ * identiques d'un élément à l'autre — seul le délai (`animation-delay`, posé
+ * en style inline selon l'ordre : sous-titre → titre → filet → items en
+ * cascade → bouton) varie d'un élément à l'autre.
+ */
+
+.info-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  filter: blur(3px);
+}
+.info-reveal.info-in {
+  animation: info-reveal-in 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes info-reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Lueur dorée très brève sur l'icône de chaque item, synchronisée avec sa
+   propre révélation — disparaît entièrement une fois l'item installé. */
+.info-icon-glow.info-in {
+  animation: info-icon-glow-in 700ms ease-out forwards;
+}
+@keyframes info-icon-glow-in {
+  0% {
+    filter: drop-shadow(0 0 0 rgba(194, 168, 120, 0));
+  }
+  45% {
+    filter: drop-shadow(0 0 6px rgba(194, 168, 120, 0.65));
+  }
+  100% {
+    filter: drop-shadow(0 0 0 rgba(194, 168, 120, 0));
+  }
+}
+
+/* prefers-reduced-motion : contenu toujours visible immédiatement, aucun
+   mouvement, aucun flou, aucune lueur, aucun décalage de stagger — on court-
+   circuite entièrement l'animation plutôt que de simplement l'accélérer. */
+@media (prefers-reduced-motion: reduce) {
+  .info-reveal,
+  .info-reveal.info-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .info-icon-glow,
+  .info-icon-glow.info-in {
+    animation: none !important;
+    filter: none !important;
+  }
+}
+
+/* Ligne Date + Heure — toujours sur la même ligne (2 colonnes) sauf largeur
+   vraiment extrême, où elle se replie en pile. Container query scopée
+   localement (aucune dépendance à PaperCard, qui reste inchangé) : réagit à
+   la largeur réelle de la carte, pas au viewport. Un élément ne peut pas se
+   querier lui-même pour ses propres propriétés de mise en page (dépendance
+   circulaire) : le conteneur (.info-datetime-container) et la grille
+   interrogée (.info-datetime-grid) sont donc deux éléments distincts. */
+.info-datetime-container {
+  container-type: inline-size;
+  width: 100%;
+}
+.info-datetime-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 1rem;
+  row-gap: 1rem;
+}
+.info-datetime-divider {
+  border-left: none;
+  padding-left: 0;
+}
+/* 160px : repli réservé aux largeurs vraiment extrêmes (bien en dessous de
+   tout mobile réel) — Date et Heure restent côte à côte partout ailleurs. */
+@container (min-width: 160px) {
+  .info-datetime-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .info-datetime-divider {
+    border-left: 1px solid color-mix(in srgb, var(--color-gold) 30%, transparent);
+    padding-left: 1rem;
+  }
+}

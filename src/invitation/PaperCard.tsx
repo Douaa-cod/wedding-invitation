@@ -3,6 +3,8 @@ import { motion, useInView } from 'framer-motion'
 import { cn } from '@/lib/cn'
 
 export interface PaperCardProps {
+  /** Ancre stable optionnelle (ex. cible de défilement interne, `#soiree`). */
+  id?: string
   eyebrow?: string
   title?: string
   children: ReactNode
@@ -38,7 +40,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
  * (même zone que CardShell, qui consomme le même visuel).
  */
 export function PaperCard({
-  eyebrow, title, children, className, dark, skipScrollReveal,
+  id, eyebrow, title, children, className, dark, skipScrollReveal,
   revealGate = true, revealAmount = 0.12, revealY = 40, revealDuration = 1.1,
 }: PaperCardProps) {
   const ref = useRef(null)
@@ -47,6 +49,7 @@ export function PaperCard({
 
   return (
     <motion.div
+      id={id}
       ref={ref}
       initial={skipScrollReveal ? false : { opacity: 0, y: revealY, scale: 0.98 }}
       animate={revealed ? { opacity: 1, y: 0, scale: 1 } : {}}

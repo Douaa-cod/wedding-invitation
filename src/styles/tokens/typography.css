@@ -1,10 +1,16 @@
 /**
  * Primitives typographiques — Brand Book section 04 "Le système typographique".
- * 4 familles, 4 rôles stricts : ne jamais utiliser une police hors de son rôle.
- *   - display : titres, noms, dates (grands corps uniquement)
- *   - accent  : citations, monogramme, touche calligraphique
- *   - sans    : labels/UI, toujours en capitales + interlettrage large
- *   - body    : texte courant, paragraphes
+ * 4 familles, rôles stricts : ne jamais utiliser une police hors de son rôle.
+ *   - display : chiffres et dates importantes (compte à rebours, dates de la
+ *     timeline, années) — 400 pour un nombre courant, 500/600 pour une date phare
+ *   - accent  : corps de texte (paragraphes, descriptions, citations) — jamais
+ *     pour un long paragraphe en display, jamais pour un label
+ *   - sans    : labels/UI, eyebrows, titres d'étape — toujours en capitales ou
+ *     tracké, jamais pour du texte courant
+ *   - body    : réservé exclusivement aux instructions de défilement (Lora) —
+ *     ne jamais l'étendre à d'autres contenus
+ *   - script  : titre principal décoratif de chaque carte (ex. "Notre chemin",
+ *     "La soirée") — jamais pour un paragraphe ou un petit label
  */
 @theme {
   --font-display: 'Playfair Display', Georgia, serif;
@@ -40,7 +46,7 @@
   --text-label: 0.875rem; /* 14px — numéros de section */
   --text-xs: 0.9375rem; /* 15px — override Tailwind (défaut 12px) */
   --text-sm: 1rem; /* 16px — texte fin, corps de carte */
-  --text-base: 1.125rem; /* 18px — body Lora */
+  --text-base: 1.125rem; /* 18px — corps de carte */
   --text-lg: 1.1875rem; /* 19px */
   --text-xl: 1.375rem; /* 22px — override Tailwind (défaut 20px) */
   --text-h3: 1.5rem; /* 24px */
@@ -58,4 +64,16 @@
   --tracking-wider: 0.24em;
   --tracking-widest: 0.3em;
   --tracking-ultrawide: 0.46em;
+
+  /* Échelle dédiée à la carte "Notre histoire" — mêmes rôles que ci-dessus,
+     tailles responsives (clamp mobile → desktop) pour cette carte uniquement.
+     Ne pas réutiliser ces tokens sur d'autres cartes sans revalidation : les
+     autres cartes gardent leurs tailles actuelles (cf. section 9 du brief). */
+  --text-history-eyebrow: clamp(0.8125rem, 0.75rem + 0.35vw, 0.875rem); /* 13–14px — NOTRE HISTOIRE (sans) */
+  --text-history-title: clamp(2.25rem, 1.85rem + 2.4vw, 2.625rem); /* 36–42px — Notre chemin (script) */
+  --text-timeline-title: clamp(0.9375rem, 0.87rem + 0.35vw, 1rem); /* 15–16px — titres d'étape / description (sans) */
+  --text-timeline-date: clamp(0.9375rem, 0.87rem + 0.35vw, 1.0625rem); /* 15–17px — dates de jalon (display) */
+  --text-final-title: clamp(1.875rem, 1.6rem + 1.6vw, 2.25rem); /* 30–36px — Le grand jour (script) */
+  --text-final-date: clamp(1.0625rem, 0.96rem + 0.6vw, 1.25rem); /* 17–20px — date du grand jour (display) */
+  --text-final-desc: clamp(0.9375rem, 0.87rem + 0.35vw, 1.0625rem); /* 15–17px — venue finale (accent) */
 }

@@ -1,0 +1,198 @@
+/**
+ * Révélation "surprise" — carte Compte à rebours uniquement (voir
+ * CountdownSection.tsx / CountdownTimer.tsx). Chaque classe `.cd-in` n'est
+ * ajoutée qu'une seule fois par React, quand l'IntersectionObserver détecte
+ * la carte : jamais rejouée au retour au scroll. Neutralisée automatiquement
+ * pour les utilisateurs "prefers-reduced-motion" par la règle globale de
+ * globals.css (animation-duration forcée à 0.001ms, le contenu apparaît
+ * alors sans transition perceptible plutôt que de rester caché).
+ *
+ * Ces règles ne sont EFFECTIVES que si la classe `cd-in` est réellement
+ * posée sur l'élément rendu (voir CountdownSection/CountdownTimer) — ne
+ * jamais ajouter de keyframe ici sans le sélecteur `.cd-in` correspondant
+ * appliqué dans le JSX, sous peine de CSS mort (non atteint).
+ *
+ * IMPORTANT — la règle globale de globals.css force
+ * `animation-duration: 0.001ms !important` sous prefers-reduced-motion, ce
+ * qui rendrait cette révélation totalement invisible (le contenu passerait
+ * de cache à visible en un temps imperceptible, sans jamais avoir été vu en
+ * transition) : exactement le symptôme "aucune animation, aucun changement"
+ * remonté en test réel. Le bloc @media tout en bas de ce fichier réactive
+ * volontairement un fondu court (sans rebond, sans zoom) pour ces
+ * utilisateurs — plus discret, mais jamais totalement absent.
+ */
+
+/* 1. Sous-titre "Le compte à rebours" */
+.cd-subtitle {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.cd-subtitle.cd-in {
+  animation: cd-subtitle-in 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes cd-subtitle-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 2. Groupes du compte à rebours (jours / heures / minutes / secondes) —
+   mouvement large et net, pensé pour rester visible même sur un scroll
+   rapide (montée franche + léger overshoot, jamais un simple micro-fondu). */
+.cd-unit {
+  opacity: 0;
+  transform: translateY(34px) scale(0.55);
+  filter: blur(5px);
+}
+.cd-unit.cd-in {
+  animation: cd-unit-in 750ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes cd-unit-in {
+  0% {
+    opacity: 0;
+    transform: translateY(34px) scale(0.55);
+    filter: blur(5px);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(-6px) scale(1.14);
+    filter: blur(0);
+  }
+  78% {
+    transform: translateY(2px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Lueur dorée nette à l'apparition de chaque valeur — volontairement plus
+   marquée qu'un simple liseré pour rester perceptible. */
+.cd-number-glow {
+  animation: countdown-number-glow 1100ms ease-out forwards;
+}
+@keyframes countdown-number-glow {
+  0% {
+    text-shadow: 0 0 0 rgba(194, 168, 120, 0);
+  }
+  40% {
+    text-shadow:
+      0 0 14px rgba(194, 168, 120, 0.75),
+      0 0 26px rgba(194, 168, 120, 0.4);
+  }
+  100% {
+    text-shadow: 0 0 0 rgba(194, 168, 120, 0);
+  }
+}
+
+/* 2bis. Labels J / H / MIN / SEC — animation propre et distincte de celle du
+   chiffre (démarre juste après lui), pour que le libellé soit visiblement
+   révélé lui aussi, pas seulement "porté" par le fondu du parent. */
+.cd-label {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.cd-label.cd-in {
+  animation: cd-label-in 450ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes cd-label-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 3. Sparkle doré — particules décoratives brèves, jamais de confettis
+   continus (une seule salve au moment où les chiffres apparaissent). */
+.cd-sparkle {
+  position: absolute;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+.cd-sparkle.cd-in {
+  animation: cd-sparkle-burst 900ms ease-out forwards;
+}
+@keyframes cd-sparkle-burst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4) rotate(0deg);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--cd-sparkle-dx)), calc(-50% + var(--cd-sparkle-dy)))
+      scale(1.2) rotate(var(--cd-sparkle-rot));
+  }
+}
+
+/* 4. Phrases sous le compte à rebours (filet doré, "Plus que X mois...",
+   "jusqu'au 14 novembre 2026") — montée nette + lueur dorée brève, pour
+   rester bien visible même lue rapidement en défilant. */
+.cd-fade-item {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.cd-fade-item.cd-in {
+  animation: cd-fade-up 650ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes cd-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+    text-shadow: 0 0 0 rgba(194, 168, 120, 0);
+  }
+  55% {
+    text-shadow: 0 0 10px rgba(194, 168, 120, 0.55);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    text-shadow: 0 0 0 rgba(194, 168, 120, 0);
+  }
+}
+
+/* 5. prefers-reduced-motion : jamais un rebond ou un zoom, mais jamais un
+   fondu de 0.001ms non plus — un simple fondu court (opacité seule) reste
+   perceptible sans réintroduire de mouvement large. Sélecteurs plus
+   spécifiques que le `*` global de globals.css : gagne malgré le double
+   `!important` (spécificité égale en important, la classe l'emporte). */
+@media (prefers-reduced-motion: reduce) {
+  .cd-subtitle.cd-in,
+  .cd-unit.cd-in,
+  .cd-label.cd-in,
+  .cd-fade-item.cd-in {
+    animation-name: cd-reduced-fade !important;
+    animation-duration: 260ms !important;
+    animation-timing-function: ease-out !important;
+    animation-iteration-count: 1 !important;
+  }
+  .cd-number-glow,
+  .cd-sparkle.cd-in {
+    animation-duration: 260ms !important;
+  }
+}
+@keyframes cd-reduced-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

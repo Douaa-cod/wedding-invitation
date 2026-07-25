@@ -254,11 +254,15 @@ export function CoverSection({ revealReady = false, onRevealComplete }: CoverSec
     <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)' }}>
       <div style={{ maxWidth: 'min(96vw, 600px)', margin: '0 auto' }}>
         <PaperCard skipScrollReveal>
-          <div className="flex flex-col items-center gap-4 text-center">
+          <div className="flex flex-col items-center gap-3 text-center">
 
             {/* 1. Bénédiction — calligraphie arabe dédiée (voir --font-arabic),
-                jamais la police latine décorative (ne contient aucun glyphe arabe). */}
-            <RevealItem index={0} active={revealReady} reducedMotion={reducedMotion} className="w-full pt-1">
+                jamais la police latine décorative (ne contient aucun glyphe arabe).
+                pt-3 : marge dédiée supplémentaire — cette carte n'a pas d'eyebrow/
+                titre au-dessus (skipScrollReveal), donc rien d'autre n'absorbe le
+                dépassement des harakat (diacritiques hauts) au-delà de leur boîte
+                de ligne ; les autres cartes en sont protégées par leur en-tête. */}
+            <RevealItem index={0} active={revealReady} reducedMotion={reducedMotion} className="w-full pt-3">
               <p dir="rtl" lang="ar" className="font-arabic"
                 style={{ color: GOLD_DEEP, fontSize: 'clamp(1.1rem, 4.4vw, 1.4rem)', letterSpacing: '0.02em', lineHeight: 2.1 }}>
                 بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ

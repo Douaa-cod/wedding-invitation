@@ -48,7 +48,7 @@ export function ScrollTransition({ visible = true }: ScrollTransitionProps) {
         opacity: reducedMotion ? (visible && inView ? 1 : 0) : (visible ? scrollOpacity : 0),
       }}
     >
-      <p className="font-display text-center" style={{
+      <p className="font-body text-center" style={{
         fontSize: 'clamp(0.9375rem, 3.5vw, 1.0625rem)',
         color: 'var(--color-bordeaux)',
         opacity: 0.9,

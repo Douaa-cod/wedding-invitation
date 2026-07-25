@@ -1,35 +1,29 @@
-import { useState, type FormEvent, type CSSProperties } from 'react'
-import { PaperCard } from '../PaperCard'
+import { useState, type FormEvent } from 'react'
+import { IvoryCard } from '../IvoryCard'
+import { CardMainTitle } from '../CardMainTitle'
+import { ActionButton } from '../ActionLink'
+import { SendIcon } from '../actionIcons'
+import { Input, Textarea, ToggleGroup } from '@/design-system'
+import { useRevealOnMount } from '@/motion/useRevealOnMount'
 import { rsvp } from '@/data/wedding'
 
-/** Styles partagés pour les inputs — plus fins, plus raffinés */
-const fieldStyle: CSSProperties = {
-  width: '100%',
-  padding: '10px 12px',
-  fontSize: '0.9375rem',
-  letterSpacing: '0.03em',
-  fontFamily: 'var(--font-body)',
-  color: 'var(--color-ink)',
-  background: 'rgba(250,247,242,0.55)',
-  border: '1px solid color-mix(in srgb, var(--color-bronze) 22%, transparent)',
-  borderRadius: '4px',
-  outline: 'none',
-  transition: 'border-color 0.2s',
-}
+/* Chronologie (ms) de la révélation — jouée une seule fois après le premier
+   rendu (cf. useRevealOnMount) : Confirmez → filet → date limite → nom →
+   présence → nombre → message → bouton. */
+const DIVIDER_DELAY = 90
+const DEADLINE_DELAY = 180
+const NAME_DELAY = 270
+const ATTEND_DELAY = 360
+const GUESTS_DELAY = 450
+const MESSAGE_DELAY = 540
+const BUTTON_DELAY = 630
 
-const labelStyle: CSSProperties = {
-  display: 'block',
-  marginBottom: '5px',
-  fontSize: '0.75rem',
-  letterSpacing: '0.18em',
-  textTransform: 'uppercase',
-  color: 'var(--color-text-subtle)',
-  fontFamily: 'var(--font-sans)',
-}
-
-/** Section RSVP — formulaire élégant, style cohérent avec les cartes papier. */
 export function RSVPSection() {
+  const revealed = useRevealOnMount()
+  const inClass = revealed ? ' rsvp-in' : ''
+
   const [name, setName] = useState('')
+  const [nameError, setNameError] = useState<string | undefined>(undefined)
   const [attending, setAttending] = useState<'oui' | 'non'>('oui')
   const [guests, setGuests] = useState('1')
   const [message, setMessage] = useState('')
@@ -37,132 +31,100 @@ export function RSVPSection() {
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
+    if (!name.trim()) {
+      setNameError('Merci d’indiquer votre nom.')
+      return
+    }
+    setNameError(undefined)
     setSubmitted(true)
   }
 
   if (submitted) {
     return (
-      <PaperCard eyebrow={rsvp.eyebrow}>
-        <div className="flex flex-col items-center gap-4 py-4 text-center">
-          <span className="text-2xl text-accent">&#10022;</span>
-          <p className="font-display text-xl text-ink">Merci</p>
-          <p className="font-body text-xs leading-relaxed text-text-muted">
-            Votre réponse a été enregistrée provisoirement.
-          </p>
-          <p className="font-body text-xs italic text-text-subtle">
-            Nous vous contacterons bientôt pour confirmation.
-          </p>
-        </div>
-      </PaperCard>
+      <IvoryCard>
+        <span className="text-2xl text-accent">&#10022;</span>
+        <p className="mt-3 font-display text-xl text-ink">Merci</p>
+        <p className="mt-2 font-accent text-xs leading-relaxed text-text-muted">
+          Votre réponse a été enregistrée provisoirement.
+        </p>
+        <p className="mt-1 font-accent text-xs italic text-ink-300">
+          Nous vous contacterons bientôt pour confirmation.
+        </p>
+      </IvoryCard>
     )
   }
 
   return (
-    <PaperCard eyebrow={rsvp.eyebrow} title={rsvp.title}>
-      <p className="mb-5 text-center font-accent text-xs italic text-text-muted">
+    <IvoryCard>
+      <div className={`rsvp-reveal${inClass}`}>
+        <CardMainTitle>{rsvp.title}</CardMainTitle>
+      </div>
+
+      <div className={`rsvp-reveal${inClass} mx-auto mt-3 h-px w-11 bg-divider`} style={{ animationDelay: `${DIVIDER_DELAY}ms` }} />
+
+      <p
+        className={`rsvp-reveal${inClass} mt-4 text-center font-accent text-xs italic text-text-muted`}
+        style={{ animationDelay: `${DEADLINE_DELAY}ms` }}
+      >
         {rsvp.deadlineLabel}
       </p>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-
-        {/* Nom */}
-        <div>
-          <label style={labelStyle}>Nom complet</label>
-          <input
-            type="text"
+      <form onSubmit={handleSubmit} noValidate className="mt-6 flex flex-col gap-5 text-left">
+        <div className={`rsvp-reveal${inClass}`} style={{ animationDelay: `${NAME_DELAY}ms` }}>
+          <Input
+            label="Nom complet"
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             placeholder="Votre nom et prénom"
-            required
-            style={fieldStyle}
-            onFocus={e => { e.currentTarget.style.borderColor = 'var(--color-bronze)' }}
-            onBlur={e => { e.currentTarget.style.borderColor = 'color-mix(in srgb, var(--color-bronze) 22%, transparent)' }}
+            error={nameError}
           />
         </div>
 
-        {/* Présence */}
-        <div>
-          <label style={labelStyle}>Présence</label>
-          <div className="flex gap-2">
-            {(['oui', 'non'] as const).map((v) => (
-              <button
-                key={v}
-                type="button"
-                onClick={() => setAttending(v)}
-                style={{
-                  flex: 1,
-                  padding: '13px',
-                  fontSize: '0.875rem',
-                  letterSpacing: '0.14em',
-                  textTransform: 'uppercase',
-                  fontFamily: 'var(--font-sans)',
-                  borderRadius: '4px',
-                  border: `1px solid ${attending === v ? 'var(--color-bronze-deep)' : 'color-mix(in srgb, var(--color-bronze) 22%, transparent)'}`,
-                  background: attending === v ? 'var(--color-bronze-deep)' : 'transparent',
-                  color: attending === v ? 'var(--color-warm-white)' : 'var(--color-accent-strong)',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                }}
-              >
-                {v.charAt(0).toUpperCase() + v.slice(1)}
-              </button>
-            ))}
-          </div>
+        <div className={`rsvp-reveal${inClass}`} style={{ animationDelay: `${ATTEND_DELAY}ms` }}>
+          <span className="mb-2 block font-sans text-label-xs uppercase tracking-wide text-ink-300">Présence</span>
+          <ToggleGroup
+            name="Présence"
+            variant="soft"
+            className="mx-auto"
+            options={[
+              { value: 'oui', label: 'Oui' },
+              { value: 'non', label: 'Non' },
+            ]}
+            value={attending}
+            onChange={(v) => setAttending(v as 'oui' | 'non')}
+          />
         </div>
 
-        {/* Nombre de personnes */}
-        <div>
-          <label style={labelStyle}>Nombre de personnes</label>
-          <input
+        <div className={`rsvp-reveal${inClass}`} style={{ animationDelay: `${GUESTS_DELAY}ms` }}>
+          <Input
+            label="Nombre de personnes"
             type="number"
-            min="1"
-            max="10"
+            min={1}
+            max={10}
             value={guests}
-            onChange={e => setGuests(e.target.value)}
-            style={fieldStyle}
-            onFocus={e => { e.currentTarget.style.borderColor = 'var(--color-bronze)' }}
-            onBlur={e => { e.currentTarget.style.borderColor = 'color-mix(in srgb, var(--color-bronze) 22%, transparent)' }}
+            onChange={(e) => setGuests(e.target.value)}
           />
         </div>
 
-        {/* Message */}
-        <div>
-          <label style={labelStyle}>Message (optionnel)</label>
-          <textarea
+        <div className={`rsvp-reveal${inClass}`} style={{ animationDelay: `${MESSAGE_DELAY}ms` }}>
+          <Textarea
+            label="Message (optionnel)"
             value={message}
-            onChange={e => setMessage(e.target.value)}
+            onChange={(e) => setMessage(e.target.value)}
             placeholder="Un mot pour le couple…"
             rows={3}
-            style={{ ...fieldStyle, resize: 'none' }}
-            onFocus={e => { e.currentTarget.style.borderColor = 'var(--color-bronze)' }}
-            onBlur={e => { e.currentTarget.style.borderColor = 'color-mix(in srgb, var(--color-bronze) 22%, transparent)' }}
           />
         </div>
 
-        {/* Bouton premium */}
-        <button
+        <ActionButton
           type="submit"
-          style={{
-            marginTop: '4px',
-            padding: '15px 24px',
-            width: '100%',
-            fontSize: '0.875rem',
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
-            fontFamily: 'var(--font-sans)',
-            color: 'var(--color-warm-white)',
-            background: 'var(--color-bronze-deep)',
-            border: 'none',
-            borderRadius: '9999px',
-            cursor: 'pointer',
-            transition: 'background 0.25s',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-bronze)' }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'var(--color-bronze-deep)' }}
+          className={`rsvp-reveal${inClass} mt-1`}
+          style={{ animationDelay: `${BUTTON_DELAY}ms` }}
         >
           {rsvp.ctaLabel}
-        </button>
+          <SendIcon />
+        </ActionButton>
       </form>
-    </PaperCard>
+    </IvoryCard>
   )
 }

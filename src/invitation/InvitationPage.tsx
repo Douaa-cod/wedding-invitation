@@ -12,7 +12,7 @@ import { HistorySection } from './sections/HistorySection'
 import { ProgramSection } from './sections/ProgramSection'
 import { TributeSection } from './sections/TributeSection'
 import { VenueSection } from './sections/VenueSection'
-import { GiftSection } from './sections/GiftSection'
+import { LocationSection } from './sections/LocationSection'
 import { RSVPSection } from './sections/RSVPSection'
 import { PhotoSection } from './sections/PhotoSection'
 import { ScrollTransition } from './sections/ScrollTransition'
@@ -243,11 +243,11 @@ export function InvitationPage() {
           <ScrollTransition />
           <HistorySection />
           <ScrollTransition />
-          <ProgramSection />
-          <ScrollTransition />
           <VenueSection />
           <ScrollTransition />
-          <GiftSection />
+          <LocationSection />
+          <ScrollTransition />
+          <ProgramSection />
           <ScrollTransition />
           <RSVPSection />
           <ScrollTransition />

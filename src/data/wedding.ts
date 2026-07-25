@@ -41,9 +41,21 @@ export interface ProgramItem {
 }
 
 export const programItems: ProgramItem[] = [
-  { time: '18:00', title: 'Accueil & cocktail', subtitle: '' },
-  { time: '19:30', title: 'Dîner tunisien & marocain', subtitle: '' },
-  { time: '21:00', title: 'Fête & danse', subtitle: '' },
+  {
+    time: '17:30',
+    title: 'Douceur au coucher du soleil',
+    subtitle: 'Accueil au bord du lac autour d’un rafraîchissement, face au coucher du soleil.',
+  },
+  {
+    time: '19:30',
+    title: 'Dîner sous le signe du partage',
+    subtitle: 'Un dîner tunisien, délicatement sublimé d’une touche marocaine.',
+  },
+  {
+    time: '21:00',
+    title: 'Célébrons ensemble',
+    subtitle: 'Musique, rires et danse pour prolonger cette belle soirée.',
+  },
 ]
 
 export interface TributeContent {
@@ -68,11 +80,11 @@ export interface VenueInfoItem {
 
 export const venueInfo: VenueInfoItem[] = [
   { label: 'Lieu', value: 'La Perle du Lac, Tunis' },
-  { label: 'Date', value: '14 Novembre 2026' },
+  { label: 'Date', value: '14 novembre 2026' },
   { label: 'Heure', value: '18h00' },
   { label: 'Dress code', value: 'Chic & Élégant' },
-  { label: 'Dîner', value: 'Tunisien & Marocain' },
-  { label: 'Soirée', value: 'DJ jusqu\'à 23h00' },
+  { label: 'Dîner', value: 'Tunisien avec une touche marocaine' },
+  { label: 'Soirée', value: 'DJ jusqu’à 23h00' },
 ]
 
 export const venueCtaLabel = 'Voir sur la carte'
@@ -102,9 +114,9 @@ export interface RsvpContent {
 
 /** Carte teaser uniquement pour l'instant — le vrai formulaire est une étape future. */
 export const rsvp: RsvpContent = {
-  eyebrow: 'RSVP',
+  eyebrow: '',
   title: 'Confirmez',
-  deadlineLabel: 'avant le 15 octobre 2026',
+  deadlineLabel: 'SVP avant le 15 octobre 2026',
   message: 'Le formulaire de réponse sera bientôt disponible.',
   ctaLabel: 'Répondre',
 }

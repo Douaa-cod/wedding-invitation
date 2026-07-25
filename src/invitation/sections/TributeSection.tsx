@@ -21,7 +21,7 @@ export function TributeSection() {
 
         <div className="h-px w-6 bg-divider opacity-30" />
 
-        <p className="font-body text-xs leading-relaxed text-text-faint" style={{ maxWidth: '88%' }}>
+        <p className="font-accent text-xs leading-relaxed text-text-faint" style={{ maxWidth: '88%' }}>
           Leur présence demeure dans nos cœurs<br />
           et nous accompagne pour toujours.
         </p>

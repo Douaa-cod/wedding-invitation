@@ -1,0 +1,134 @@
+/**
+ * Révélation "Programme — La soirée" — carte Programme uniquement (voir
+ * ProgramSection.tsx). Jouée UNE SEULE FOIS, juste après le premier rendu de
+ * la page (cf. useRevealOnMount, même architecture que la carte
+ * Informations) — jamais liée au scroll, jamais rejouée par un rerender ou
+ * un changement du compte à rebours (seul un vrai rechargement de page la
+ * rejoue, le composant étant alors remonté depuis zéro).
+ *
+ * Pas de fil vertical ni de repère de progression : chaque événement est un
+ * bloc autonome (heure + point discret + icône + titre + description),
+ * séparé uniquement par de l'espacement (cf. `gap-7` dans ProgramSection).
+ */
+
+/* 1–3. Zone de titre — sous-titre, titre principal, filet. */
+.prog-title-reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  filter: blur(2px);
+}
+.prog-title-reveal.prog-in {
+  animation: prog-title-in 550ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes prog-title-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* 4–6. Chaque événement — révélé comme un seul bloc équilibré (heure, point,
+   icône, titre, description ensemble), jamais mot par mot. */
+.prog-event-reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  filter: blur(2px);
+}
+.prog-event-reveal.prog-in {
+  animation: prog-event-in 550ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes prog-event-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Icône — entrée discrète : fondu + très léger zoom, jamais de rebond. */
+.prog-icon-reveal {
+  opacity: 0;
+  transform: scale(0.9);
+}
+@keyframes prog-icon-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+/* Deux animations combinées sur le même élément : chacune ne porte que sur
+   ses propres propriétés (transform+opacity / filter), donc aucun conflit. */
+.prog-icon-reveal.prog-in {
+  animation-name: prog-icon-in, prog-icon-glow-in;
+  animation-duration: 500ms, 700ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1), ease-out;
+  animation-fill-mode: forwards, forwards;
+}
+/* Éclat doré très bref sur l'icône — entièrement supprimé après l'apparition,
+   jamais une lueur permanente. */
+@keyframes prog-icon-glow-in {
+  0% {
+    filter: drop-shadow(0 0 0 rgba(194, 168, 120, 0));
+  }
+  45% {
+    filter: drop-shadow(0 0 6px rgba(194, 168, 120, 0.6));
+  }
+  100% {
+    filter: drop-shadow(0 0 0 rgba(194, 168, 120, 0));
+  }
+}
+
+/* prefers-reduced-motion : contenu toujours visible immédiatement, aucun
+   mouvement, aucun flou, aucune mise à l'échelle, aucun éclat, aucun décalage. */
+@media (prefers-reduced-motion: reduce) {
+  .prog-title-reveal,
+  .prog-title-reveal.prog-in,
+  .prog-event-reveal,
+  .prog-event-reveal.prog-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .prog-icon-reveal,
+  .prog-icon-reveal.prog-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+/* Interactions discrètes — uniquement sur les appareils avec un vrai survol
+   (jamais sur tactile pur) ; ne déplace jamais l'heure. */
+@media (hover: hover) and (pointer: fine) {
+  .prog-event .prog-content {
+    transition: transform 200ms ease;
+  }
+  .prog-event .prog-icon-glow {
+    transition: color 200ms ease;
+  }
+  .prog-event:hover .prog-content,
+  .prog-event:focus-within .prog-content {
+    transform: translateX(2px);
+  }
+  .prog-event:hover .prog-icon-glow,
+  .prog-event:focus-within .prog-icon-glow {
+    color: var(--color-bronze-deep);
+  }
+}

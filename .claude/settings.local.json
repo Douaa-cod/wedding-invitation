@@ -2,7 +2,15 @@
   "permissions": {
     "allow": [
       "Bash(npx tsc *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(npx --yes playwright --version)",
+      "Bash(ls /home/douaa-yazidi/Desktop/wedding-invitation/node_modules 2>&1 | head -5 *)",
+      "Read(//home/douaa-yazidi/.cache/ms-playwright/**)",
+      "Read(//home/douaa-yazidi/.npm/_npx/**)",
+      "Bash(NODE_PATH=/home/douaa-yazidi/.npm/_npx/705bc6b22212b352/node_modules node -e \"console.log\\(require.resolve\\('playwright'\\)\\)\")",
+      "Bash(cp /home/douaa-yazidi/Desktop/wedding-invitation/.rm-test.mjs /home/douaa-yazidi/.npm/_npx/705bc6b22212b352/rm-test.mjs)",
+      "Read(//home/douaa-yazidi/.npm/_npx/705bc6b22212b352/**)",
+      "Bash(node rm-test.mjs)"
     ]
   }
 }

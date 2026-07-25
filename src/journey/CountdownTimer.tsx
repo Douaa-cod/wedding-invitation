@@ -39,6 +39,18 @@ export interface CountdownTimerProps {
   /** compact : une seule ligne "88j 12h 34m 05s" ; full : 4 blocs empilés */
   variant?: 'compact' | 'full'
   className?: string
+  /**
+   * Révélation "surprise" en cascade (carte Compte à rebours uniquement) :
+   * quand fourni, chaque groupe (J/H/MIN/SEC) démarre caché puis apparaît en
+   * séquence dès que `revealed` passe à true. Omis (undefined) partout
+   * ailleurs → comportement inchangé, aucun état caché. Ignoré en
+   * variant="compact".
+   */
+  revealed?: boolean
+  /** Délai avant le premier groupe (ms), défaut 0. */
+  revealDelayMs?: number
+  /** Écart entre deux groupes consécutifs (ms), défaut 120. */
+  revealStaggerMs?: number
 }
 
 /**
@@ -46,7 +58,14 @@ export interface CountdownTimerProps {
  * variant="full"    : 4 blocs en grille (cartes d'invitation)
  * variant="compact" : une seule ligne discrète (splash, header)
  */
-export function CountdownTimer({ target, variant = 'full', className }: CountdownTimerProps) {
+export function CountdownTimer({
+  target,
+  variant = 'full',
+  className,
+  revealed,
+  revealDelayMs = 0,
+  revealStaggerMs = 120,
+}: CountdownTimerProps) {
   const { days, hours, minutes, seconds, done } = useCountdown(target)
 
   if (done) {
@@ -74,32 +93,50 @@ export function CountdownTimer({ target, variant = 'full', className }: Countdow
     { value: pad(seconds), label: 'SEC' },
   ]
 
+  const showEntrance = revealed !== undefined
+  /* Le libellé démarre son propre mouvement juste après le chiffre — deux
+     vagues de révélation distinctes, jamais un simple fondu hérité du parent. */
+  const LABEL_EXTRA_DELAY = 180
+
   return (
     <div className={`grid grid-cols-4 gap-1.5 sm:gap-3 ${className ?? ''}`}>
-      {units.map(({ value, label, wide }) => (
-        <div key={label} className="flex flex-col items-center gap-1">
-          {/* tabular-nums + largeur réservée (3 caractères pour les jours, qui
-              passeront de 3 à 2 chiffres avec le temps) : la mise en page ne
-              bouge jamais quand un chiffre change. */}
-          <span
-            className="font-display leading-none text-ink-700"
-            style={{
-              fontSize: 'clamp(1.6rem, 7vw, 2.2rem)',
-              fontVariantNumeric: 'tabular-nums',
-              minWidth: wide ? '3ch' : '2ch',
-              textAlign: 'center',
-            }}
+      {units.map(({ value, label, wide }, index) => {
+        const delayMs = revealDelayMs + index * revealStaggerMs
+        const entranceActive = showEntrance && revealed
+
+        return (
+          <div
+            key={label}
+            className={`flex flex-col items-center gap-1${showEntrance ? ' cd-unit' : ''}${entranceActive ? ' cd-in' : ''}`}
+            style={showEntrance ? { animationDelay: `${delayMs}ms` } : undefined}
           >
-            {value}
-          </span>
-          <span
-            className="font-sans uppercase tracking-widest text-text-subtle"
-            style={{ fontSize: 'clamp(0.55rem, 2.4vw, 0.6875rem)' }}
-          >
-            {label}
-          </span>
-        </div>
-      ))}
+            {/* tabular-nums + largeur réservée (3 caractères pour les jours, qui
+                passeront de 3 à 2 chiffres avec le temps) : la mise en page ne
+                bouge jamais quand un chiffre change. */}
+            <span
+              className={`font-display leading-none text-ink-700${entranceActive ? ' cd-number-glow' : ''}`}
+              style={{
+                fontSize: 'clamp(1.6rem, 7vw, 2.2rem)',
+                fontVariantNumeric: 'tabular-nums',
+                minWidth: wide ? '3ch' : '2ch',
+                textAlign: 'center',
+                ...(entranceActive ? { animationDelay: `${delayMs}ms` } : {}),
+              }}
+            >
+              {value}
+            </span>
+            <span
+              className={`font-sans uppercase tracking-widest text-text-subtle${showEntrance ? ' cd-label' : ''}${entranceActive ? ' cd-in' : ''}`}
+              style={{
+                fontSize: 'clamp(0.55rem, 2.4vw, 0.6875rem)',
+                ...(showEntrance ? { animationDelay: `${delayMs + LABEL_EXTRA_DELAY}ms` } : {}),
+              }}
+            >
+              {label}
+            </span>
+          </div>
+        )
+      })}
     </div>
   )
 }
