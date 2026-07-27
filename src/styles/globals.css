@@ -8,6 +8,7 @@
 @import './informations-reveal.css';
 @import './program-reveal.css';
 @import './rsvp-reveal.css';
+@import './tribute-reveal.css';
 
 @layer base {
   *,

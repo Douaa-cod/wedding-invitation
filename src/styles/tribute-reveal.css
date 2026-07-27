@@ -1,0 +1,44 @@
+/**
+ * Révélation "Hommage — À nos pères" — carte Hommage uniquement (voir
+ * TributeSection.tsx). Jouée UNE SEULE FOIS, juste après le premier rendu de
+ * la page (cf. useRevealOnMount, même architecture que les cartes
+ * Informations / Programme) — jamais liée au scroll, jamais rejouée par un
+ * rerender ou un changement d'état externe (seul un vrai rechargement de
+ * page la rejoue, le composant étant alors remonté depuis zéro).
+ *
+ * Une seule déclaration d'opacité/déplacement/flou : seul le délai
+ * (`animation-delay`, posé en style inline selon l'ordre demandé) varie
+ * d'un élément à l'autre.
+ */
+.trib-reveal {
+  opacity: 0;
+  transform: translateY(8px);
+  filter: blur(2px);
+}
+.trib-reveal.trib-in {
+  animation: trib-reveal-in 500ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes trib-reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* prefers-reduced-motion : contenu toujours visible immédiatement, aucun
+   mouvement, aucun flou, aucun décalage de stagger. */
+@media (prefers-reduced-motion: reduce) {
+  .trib-reveal,
+  .trib-reveal.trib-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}

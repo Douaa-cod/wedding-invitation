@@ -81,10 +81,10 @@ export interface VenueInfoItem {
 export const venueInfo: VenueInfoItem[] = [
   { label: 'Lieu', value: 'La Perle du Lac, Tunis' },
   { label: 'Date', value: '14 novembre 2026' },
-  { label: 'Heure', value: '18h00' },
+  { label: 'Heure', value: '17h30' },
   { label: 'Dress code', value: 'Chic & Élégant' },
   { label: 'Dîner', value: 'Tunisien avec une touche marocaine' },
-  { label: 'Soirée', value: 'DJ jusqu’à 23h00' },
+  { label: 'Soirée', value: 'Jusqu’à 23h00' },
 ]
 
 export const venueCtaLabel = 'Voir sur la carte'

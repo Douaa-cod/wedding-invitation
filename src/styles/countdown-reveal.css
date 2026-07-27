@@ -1,11 +1,12 @@
 /**
- * Révélation "surprise" — carte Compte à rebours uniquement (voir
- * CountdownSection.tsx / CountdownTimer.tsx). Chaque classe `.cd-in` n'est
- * ajoutée qu'une seule fois par React, quand l'IntersectionObserver détecte
- * la carte : jamais rejouée au retour au scroll. Neutralisée automatiquement
- * pour les utilisateurs "prefers-reduced-motion" par la règle globale de
- * globals.css (animation-duration forcée à 0.001ms, le contenu apparaît
- * alors sans transition perceptible plutôt que de rester caché).
+ * Révélation — carte Compte à rebours uniquement (voir CountdownSection.tsx
+ * / CountdownTimer.tsx). Chaque classe `.cd-in` n'est ajoutée qu'une seule
+ * fois par React, dès que `readyToReveal` passe à true (fin de la séquence
+ * de la carte 1) — jamais lié au scroll ni à un IntersectionObserver, jamais
+ * rejoué ensuite. Neutralisée automatiquement pour les utilisateurs
+ * "prefers-reduced-motion" par la règle globale de globals.css
+ * (animation-duration forcée à 0.001ms, le contenu apparaît alors sans
+ * transition perceptible plutôt que de rester caché).
  *
  * Ces règles ne sont EFFECTIVES que si la classe `cd-in` est réellement
  * posée sur l'élément rendu (voir CountdownSection/CountdownTimer) — ne
@@ -182,6 +183,12 @@
     animation-duration: 260ms !important;
     animation-timing-function: ease-out !important;
     animation-iteration-count: 1 !important;
+    /* cd-reduced-fade n'anime que l'opacité : sans ces deux lignes, le
+       filter/transform du départ (base .cd-unit notamment : blur(5px) +
+       scale(0.55)) reste bloqué indéfiniment, puisqu'aucune animation ne
+       les touche plus une fois animation-name remplacé ci-dessus. */
+    transform: none !important;
+    filter: none !important;
   }
   .cd-number-glow,
   .cd-sparkle.cd-in {
@@ -194,5 +201,50 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+/* 6. Petites étoiles décoratives permanentes — scintillement doux et
+   continu autour du compte à rebours, dans le même esprit que les cœurs de
+   MagicHearts.tsx. Boucle infinie volontaire (élément purement décoratif,
+   jamais d'information portée), jamais de clignotement brutal : fondu et
+   échelle légers, rotation à peine perceptible. Durées/délais décalés par
+   nth-child pour éviter tout effet de synchronisation mécanique. */
+.countdown-star {
+  /* Taille responsive : mobile ~15px, desktop ~18px — augmentée par rapport
+     à l'ancienne valeur fixe (0.55rem ≈ 8.8px), sans toucher au
+     positionnement (top/left restent en JSX) ni à l'animation ci-dessous. */
+  font-size: clamp(0.9rem, 2.8vw, 1.1rem);
+  transform-origin: center;
+  pointer-events: none;
+  animation: countdown-star-twinkle 2.4s ease-in-out infinite;
+}
+.countdown-star:nth-child(2n) {
+  animation-duration: 3.1s;
+  animation-delay: -0.8s;
+}
+.countdown-star:nth-child(3n) {
+  animation-duration: 2.7s;
+  animation-delay: -1.4s;
+}
+@keyframes countdown-star-twinkle {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.82) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08) rotate(5deg);
+  }
+}
+
+/* prefers-reduced-motion : étoiles visibles à une opacité discrète et fixe,
+   jamais de scintillement ni de mise à l'échelle. */
+@media (prefers-reduced-motion: reduce) {
+  .countdown-star {
+    animation: none !important;
+    opacity: 0.7 !important;
+    transform: none !important;
   }
 }

@@ -66,8 +66,8 @@ export function ProgramSection() {
                       <span className="font-accent text-sm font-medium leading-snug text-ink">{item.title}</span>
                     </div>
                     <p
-                      className="mt-1 font-accent italic leading-relaxed text-text-faint"
-                      style={{ fontSize: '0.8125rem' }}
+                      className="mt-1 font-accent italic font-medium text-ink-800"
+                      style={{ fontSize: '0.875rem', lineHeight: 1.55 }}
                     >
                       {item.subtitle}
                     </p>

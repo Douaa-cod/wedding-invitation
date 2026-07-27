@@ -24,6 +24,19 @@ export interface PaperCardProps {
    * pour ne jamais apparaître avant la fin de la séquence de la carte 1.
    */
   revealGate?: boolean
+  /**
+   * Si true, ignore complètement le déclenchement par scroll (useInView) :
+   * la révélation suit uniquement `revealGate`, dès que celui-ci passe à
+   * true — jamais après un simple passage dans le viewport, jamais rejouée
+   * en sortant/rentrant dans le viewport. L'animation d'entrée (fondu +
+   * translation + échelle) reste jouée normalement, contrairement à
+   * `skipScrollReveal` qui affiche la carte déjà visible sans transition.
+   * Défaut false — n'affecte aucune carte existante. Utilisé par
+   * CountdownSection, qui doit apparaître dès le chargement de la page
+   * (une fois la séquence de la carte 1 terminée) sans jamais dépendre du
+   * scroll de l'utilisateur.
+   */
+  revealOnMount?: boolean
   /** Fraction du composant visible avant déclenchement (défaut 0.12, comme avant). */
   revealAmount?: number
   /** Décalage vertical de départ en px (défaut 40, comme avant). */
@@ -41,11 +54,11 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
  */
 export function PaperCard({
   id, eyebrow, title, children, className, dark, skipScrollReveal,
-  revealGate = true, revealAmount = 0.12, revealY = 40, revealDuration = 1.1,
+  revealGate = true, revealOnMount = false, revealAmount = 0.12, revealY = 40, revealDuration = 1.1,
 }: PaperCardProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: revealAmount })
-  const revealed = skipScrollReveal || (isInView && revealGate)
+  const revealed = skipScrollReveal || (revealOnMount ? revealGate : isInView && revealGate)
 
   return (
     <motion.div

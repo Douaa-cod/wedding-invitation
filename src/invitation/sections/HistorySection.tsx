@@ -249,7 +249,7 @@ export function HistorySection() {
                           style={{
                             fontSize: 'var(--text-final-date)',
                             fontWeight: 500,
-                            color: 'var(--color-ink-900)',
+                            color: 'var(--color-accent-strong)',
                             width: 'max-content',
                             maxWidth: 'none',
                             whiteSpace: 'nowrap',

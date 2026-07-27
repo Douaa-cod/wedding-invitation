@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Variables d'environnement (secrets/URL d'API) — jamais commitées.
+# .env.example reste versionné comme gabarit.
+.env
+.env.*
+!.env.example
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

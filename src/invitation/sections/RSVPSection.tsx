@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
 import { IvoryCard } from '../IvoryCard'
 import { CardMainTitle } from '../CardMainTitle'
 import { ActionButton } from '../ActionLink'
@@ -18,40 +18,133 @@ const GUESTS_DELAY = 450
 const MESSAGE_DELAY = 540
 const BUTTON_DELAY = 630
 
+const MIN_GUESTS = 1
+const MAX_GUESTS = 20
+
+/** URL de l'Apps Script — jamais dupliquée ailleurs dans le composant. */
+const rsvpApiUrl = import.meta.env.VITE_RSVP_API_URL
+
+type Attendance = '' | 'Oui' | 'Non'
+type SubmitStatus = 'idle' | 'submitting' | 'success' | 'error'
+
+const SUCCESS_MESSAGE = 'Merci, votre réponse a bien été enregistrée.'
+const ERROR_MESSAGE = 'Une erreur est survenue. Veuillez réessayer.'
+
 export function RSVPSection() {
   const revealed = useRevealOnMount()
   const inClass = revealed ? ' rsvp-in' : ''
 
-  const [name, setName] = useState('')
-  const [nameError, setNameError] = useState<string | undefined>(undefined)
-  const [attending, setAttending] = useState<'oui' | 'non'>('oui')
-  const [guests, setGuests] = useState('1')
+  const [fullName, setFullName] = useState('')
+  const [fullNameError, setFullNameError] = useState<string | undefined>(undefined)
+  const [attendance, setAttendance] = useState<Attendance>('')
+  const [attendanceError, setAttendanceError] = useState<string | undefined>(undefined)
+  const [numberOfGuests, setNumberOfGuests] = useState('1')
+  const [guestsError, setGuestsError] = useState<string | undefined>(undefined)
   const [message, setMessage] = useState('')
-  const [submitted, setSubmitted] = useState(false)
+  const [website, setWebsite] = useState('') // honeypot — doit rester vide
+  const [status, setStatus] = useState<SubmitStatus>('idle')
+  const [statusMessage, setStatusMessage] = useState('')
 
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault()
-    if (!name.trim()) {
-      setNameError('Merci d’indiquer votre nom.')
-      return
-    }
-    setNameError(undefined)
-    setSubmitted(true)
+  const fullNameRef = useRef<HTMLInputElement>(null)
+  const attendanceWrapperRef = useRef<HTMLDivElement>(null)
+  const guestsRef = useRef<HTMLInputElement>(null)
+  /* Garde synchrone contre la double soumission : une ref se lit/mute
+     immédiatement, contrairement à l'état React (mis à jour de façon
+     asynchrone/groupée) — sans elle, plusieurs clics tirés dans le même tick
+     (avant que le bouton ne soit réellement rendu disabled) verraient tous
+     le même statut "idle" et déclencheraient chacun leur propre requête. */
+  const isSubmittingRef = useRef(false)
+
+  const isSubmitting = status === 'submitting'
+
+  function resetForm() {
+    setFullName('')
+    setMessage('')
+    setAttendance('')
+    setNumberOfGuests(String(MIN_GUESTS))
   }
 
-  if (submitted) {
-    return (
-      <IvoryCard>
-        <span className="text-2xl text-accent">&#10022;</span>
-        <p className="mt-3 font-display text-xl text-ink">Merci</p>
-        <p className="mt-2 font-accent text-xs leading-relaxed text-text-muted">
-          Votre réponse a été enregistrée provisoirement.
-        </p>
-        <p className="mt-1 font-accent text-xs italic text-ink-300">
-          Nous vous contacterons bientôt pour confirmation.
-        </p>
-      </IvoryCard>
-    )
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault()
+    if (isSubmittingRef.current) return // empêche toute double soumission (en plus du bouton désactivé)
+
+    setFullNameError(undefined)
+    setAttendanceError(undefined)
+    setGuestsError(undefined)
+
+    const trimmedName = fullName.trim()
+    if (!trimmedName) {
+      setFullNameError('Merci d’indiquer votre nom.')
+      fullNameRef.current?.focus()
+      return
+    }
+
+    if (attendance !== 'Oui' && attendance !== 'Non') {
+      setAttendanceError('Merci d’indiquer votre présence.')
+      attendanceWrapperRef.current?.querySelector('button')?.focus()
+      return
+    }
+
+    let guestsCount = 0
+    if (attendance === 'Oui') {
+      guestsCount = Number(numberOfGuests)
+      if (!Number.isInteger(guestsCount) || guestsCount < MIN_GUESTS || guestsCount > MAX_GUESTS) {
+        setGuestsError(`Merci d’indiquer un nombre de personnes entre ${MIN_GUESTS} et ${MAX_GUESTS}.`)
+        guestsRef.current?.focus()
+        return
+      }
+    }
+
+    isSubmittingRef.current = true
+    try {
+      // Honeypot rempli → réponse silencieuse de succès, aucune requête envoyée.
+      if (website.trim() !== '') {
+        setStatus('success')
+        setStatusMessage(SUCCESS_MESSAGE)
+        resetForm()
+        return
+      }
+
+      if (!rsvpApiUrl) {
+        if (import.meta.env.DEV) {
+          console.error(
+            'VITE_RSVP_API_URL est absente : impossible d’envoyer le formulaire RSVP. Vérifiez votre fichier .env.',
+          )
+        }
+        setStatus('error')
+        setStatusMessage(ERROR_MESSAGE)
+        return
+      }
+
+      setStatus('submitting')
+      setStatusMessage('')
+
+      const formData = new FormData()
+      formData.append('fullName', trimmedName)
+      formData.append('attendance', attendance)
+      formData.append('numberOfGuests', attendance === 'Oui' ? String(guestsCount) : '0')
+      formData.append('message', message.trim())
+      formData.append('website', website)
+
+      try {
+        // mode: 'no-cors' → la réponse est opaque : le navigateur envoie bien
+        // la requête, mais le JavaScript ne peut lire ni son statut HTTP ni
+        // son corps JSON (contrainte imposée par Google Apps Script pour
+        // éviter le blocage CORS). "Succès" signifie donc uniquement que la
+        // requête a pu être envoyée sans erreur réseau — pas une confirmation
+        // explicite que Google Apps Script l'a traitée côté serveur.
+        await fetch(rsvpApiUrl, { method: 'POST', mode: 'no-cors', body: formData })
+        setStatus('success')
+        setStatusMessage(SUCCESS_MESSAGE)
+        resetForm()
+      } catch {
+        setStatus('error')
+        setStatusMessage(ERROR_MESSAGE)
+        // Les valeurs saisies restent intactes — aucun reset en cas d'erreur.
+      }
+    } finally {
+      isSubmittingRef.current = false
+    }
   }
 
   return (
@@ -69,40 +162,52 @@ export function RSVPSection() {
         {rsvp.deadlineLabel}
       </p>
 
-      <form onSubmit={handleSubmit} noValidate className="mt-6 flex flex-col gap-5 text-left">
+      <form onSubmit={handleSubmit} noValidate aria-busy={isSubmitting} className="mt-6 flex flex-col gap-5 text-left">
         <div className={`rsvp-reveal${inClass}`} style={{ animationDelay: `${NAME_DELAY}ms` }}>
           <Input
+            ref={fullNameRef}
             label="Nom complet"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
             placeholder="Votre nom et prénom"
-            error={nameError}
+            error={fullNameError}
+            disabled={isSubmitting}
           />
         </div>
 
         <div className={`rsvp-reveal${inClass}`} style={{ animationDelay: `${ATTEND_DELAY}ms` }}>
           <span className="mb-2 block font-sans text-label-xs uppercase tracking-wide text-ink-300">Présence</span>
-          <ToggleGroup
-            name="Présence"
-            variant="soft"
-            className="mx-auto"
-            options={[
-              { value: 'oui', label: 'Oui' },
-              { value: 'non', label: 'Non' },
-            ]}
-            value={attending}
-            onChange={(v) => setAttending(v as 'oui' | 'non')}
-          />
+          <div ref={attendanceWrapperRef}>
+            <ToggleGroup
+              name="Présence"
+              variant="soft"
+              className="mx-auto"
+              options={[
+                { value: 'Oui', label: 'Oui' },
+                { value: 'Non', label: 'Non' },
+              ]}
+              value={attendance}
+              onChange={(v) => setAttendance(v as Attendance)}
+            />
+          </div>
+          {attendanceError && (
+            <p role="alert" className="mt-2 text-center font-sans text-label-xs text-bordeaux">
+              {attendanceError}
+            </p>
+          )}
         </div>
 
         <div className={`rsvp-reveal${inClass}`} style={{ animationDelay: `${GUESTS_DELAY}ms` }}>
           <Input
+            ref={guestsRef}
             label="Nombre de personnes"
             type="number"
-            min={1}
-            max={10}
-            value={guests}
-            onChange={(e) => setGuests(e.target.value)}
+            min={MIN_GUESTS}
+            max={MAX_GUESTS}
+            value={numberOfGuests}
+            onChange={(e) => setNumberOfGuests(e.target.value)}
+            error={guestsError}
+            disabled={attendance !== 'Oui' || isSubmitting}
           />
         </div>
 
@@ -113,17 +218,40 @@ export function RSVPSection() {
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Un mot pour le couple…"
             rows={3}
+            disabled={isSubmitting}
+          />
+        </div>
+
+        {/* Honeypot antispam — jamais rempli par un utilisateur humain (voir
+            .rsvp-honeypot dans rsvp-reveal.css), entièrement ignoré des
+            technologies d'assistance. */}
+        <div className="rsvp-honeypot" aria-hidden="true">
+          <Input
+            label="Site web"
+            name="website"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+            tabIndex={-1}
+            autoComplete="off"
           />
         </div>
 
         <ActionButton
           type="submit"
+          disabled={isSubmitting}
           className={`rsvp-reveal${inClass} mt-1`}
           style={{ animationDelay: `${BUTTON_DELAY}ms` }}
         >
-          {rsvp.ctaLabel}
+          {isSubmitting ? 'Envoi en cours…' : rsvp.ctaLabel}
           <SendIcon />
         </ActionButton>
+
+        <p
+          aria-live="polite"
+          className={`text-center font-accent text-xs ${status === 'error' ? 'text-bordeaux' : 'text-text-muted'}`}
+        >
+          {statusMessage}
+        </p>
       </form>
     </IvoryCard>
   )

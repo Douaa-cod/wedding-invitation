@@ -311,9 +311,12 @@ export function CoverSection({ revealReady = false, onRevealComplete }: CoverSec
 
             {/* 12. Citation finale */}
             <RevealItem index={6} active={revealReady} reducedMotion={reducedMotion} onComplete={handleClosingComplete}>
-              <p className="font-accent italic text-ink-700" style={{ fontSize: 'clamp(0.85rem, 3vw, 0.95rem)', lineHeight: 1.3, maxWidth: '90%' }}>
+              <p
+                className="font-accent italic font-medium text-ink-800"
+                style={{ fontSize: 'clamp(0.875rem, 3vw, 0.95rem)', lineHeight: 1.55, maxWidth: '90%' }}
+              >
                 Entre la France et la Tunisie,<br />
-                le Maroc dans le cœur,<br />
+                avec le Maroc dans le cœur,<br />
                 nos chemins s’unissent pour écrire une seule histoire.
               </p>
             </RevealItem>

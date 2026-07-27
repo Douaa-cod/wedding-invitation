@@ -38,3 +38,16 @@
     filter: none !important;
   }
 }
+
+/* Champ honeypot antispam ("website") — masqué hors écran, jamais
+   display:none/visibility:hidden (que certains robots savent détecter et
+   ignorer) : le champ reste dans le flux et ciblable par un bot, mais
+   invisible pour un utilisateur humain. */
+.rsvp-honeypot {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
