@@ -106,11 +106,12 @@ export function RSVPSection() {
       }
 
       if (!rsvpApiUrl) {
-        if (import.meta.env.DEV) {
-          console.error(
-            'VITE_RSVP_API_URL est absente : impossible d’envoyer le formulaire RSVP. Vérifiez votre fichier .env.',
-          )
-        }
+        // Toujours logué (dev ET prod) : sans variable Vercel configurée, la
+        // console de prod ne montrait auparavant aucune trace exploitable.
+        console.error(
+          'VITE_RSVP_API_URL est absente : impossible d’envoyer le formulaire RSVP. ' +
+            'Vérifiez la variable d’environnement (fichier .env en local, Vercel → Project → Settings → Environment Variables en production).',
+        )
         setStatus('error')
         setStatusMessage(ERROR_MESSAGE)
         return
