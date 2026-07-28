@@ -215,7 +215,7 @@ export function InvitationPage() {
 
       {/* Contenu vertical — sections avec flèches entre elles. La carte de
           couverture est toujours l'élément monté ici, dès le premier rendu. */}
-      <main className="mx-auto max-w-130 px-3 pb-16 pt-8">
+      <main className="mx-auto max-w-130 px-3 pb-4 pt-8">
         <div ref={journeyRef} className="relative flex flex-col gap-3">
           <FlightJourney
             containerRef={journeyRef}
@@ -256,6 +256,19 @@ export function InvitationPage() {
           <PhotoSection />
         </div>
       </main>
+
+      <footer className="site-footer">
+        <p>Invitation conçue avec amour par la mariée</p>
+
+        <a
+          href="https://www.douaayazidi.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Voir le portfolio de Douaa Yazidi"
+        >
+          Douaa Yazidi — Voir le portfolio ↗
+        </a>
+      </footer>
 
       {/* Bouton son — discret, fixe, bas-droit */}
       <button

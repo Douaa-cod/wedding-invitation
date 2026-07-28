@@ -58,7 +58,7 @@ export function TributeSection() {
 
           <div className="flex flex-col items-center gap-0.5">
             <span className="font-display tracking-wide text-ink" style={{ fontSize: '1rem', lineHeight: 1.15 }}>
-              Hamdi Yazidi
+              Hamadi Yazidi
             </span>
             <span className="font-accent italic text-text-muted" style={{ fontSize: '0.8125rem', lineHeight: 1.3 }}>
               père de Douaa
