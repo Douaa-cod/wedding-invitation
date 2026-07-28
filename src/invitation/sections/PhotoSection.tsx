@@ -37,16 +37,12 @@ export function PhotoSection() {
     <PaperCard>
       <div ref={ref} className="flex flex-col items-center" style={{ width: '100%', boxSizing: 'border-box' }}>
 
-        {/* Photo — élément visuel principal de la carte. PaperCard réserve
-            px-[20%] py-[7%] (zone de sécurité texte) sur son conteneur ; la
-            photo en sort volontairement pour rester grande :
-            - largeur : 166.667% de la largeur de contenu disponible moins
-              24px — une identité qui annule exactement le padding horizontal
-              en pourcentage du parent (100% - 2×20% = 60% de contenu ; 60% ×
-              166.667% = 100% de la carte), quelle que soit la largeur réelle
-              de la carte, pour ne laisser qu'une marge fixe de 12px de chaque
-              côté par rapport aux fleurs embossées.
-            - marge supérieure : même principe pour le padding vertical.
+        {/* Photo — élément visuel principal de la carte. Largeur : 100% du
+            conteneur de contenu (même colonne que le verset/la traduction
+            ci-dessous, à l'intérieur de la zone sécurisée px-[20%] de
+            PaperCard) — la photo s'arrête au même niveau que le reste du
+            texte, jamais un débordement dans la zone florale.
+            - marge supérieure : compense le padding vertical du parent.
               PaperCard applique déjà 7% (soit 11.667% de notre largeur de
               contenu, puisque celle-ci vaut 60% de la largeur de la carte) ;
               `calc(-11.667% + clamp(20px, 5vw, 28px))` annule exactement
@@ -71,7 +67,7 @@ export function PhotoSection() {
           }
           transition={reducedMotion ? REDUCED_TRANSITION : { duration: PHOTO_DURATION, ease: EASE }}
           style={{
-            width: 'calc(166.667% - 24px)',
+            width: '100%',
             marginTop: 'calc(-11.667% + clamp(20px, 5vw, 28px))',
             display: 'block',
             borderRadius: '24px',
@@ -106,9 +102,8 @@ export function PhotoSection() {
           className="font-arabic text-center"
           style={{
             fontSize: 'clamp(1.025rem, 3.6vw, 1.205rem)',
-            lineHeight: 2.1,
+            lineHeight: 1.8,
             color: 'var(--color-ink)',
-            maxWidth: '90%',
             letterSpacing: '0.025em',
             marginTop: 16,
           }}
@@ -119,7 +114,7 @@ export function PhotoSection() {
         {/* Traduction française — statique. */}
         <p
           className="font-accent italic text-text-muted text-center"
-          style={{ fontSize: '0.9rem', lineHeight: 1.95, maxWidth: '86%', marginTop: 12 }}
+          style={{ fontSize: '0.9rem', lineHeight: 1.3, maxWidth: '86%', marginTop: 12 }}
         >
           « Et parmi Ses signes, Il a créé de vous, pour vous, des épouses afin que vous trouviez auprès d'elles la tranquillité. Et Il a mis entre vous affection et miséricorde. »
         </p>
@@ -133,7 +128,7 @@ export function PhotoSection() {
           Sourate Ar-Rûm (30:21)
         </span>
 
-        <CardDivider className="shrink-0 mt-4.5" />
+        <CardDivider className="shrink-0" />
       </div>
     </PaperCard>
   )

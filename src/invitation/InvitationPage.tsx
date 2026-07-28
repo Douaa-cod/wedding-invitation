@@ -258,7 +258,7 @@ export function InvitationPage() {
       </main>
 
       <footer className="site-footer">
-        <p>Invitation conçue avec amour par la mariée</p>
+        <p>♡<span className="italic"> Invitation conçue avec amour par la mariée </span>♡</p>
 
         <a
           href="https://www.douaayazidi.com/"

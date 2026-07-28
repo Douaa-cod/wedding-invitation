@@ -52,10 +52,10 @@ export function VenueSection() {
           <div className={`info-reveal${inClass}`} style={{ animationDelay: `${BLOCKS_DELAY}ms` }}>
             <div className="flex items-center gap-1.5">
               <LocationIcon
-                className={`info-icon-glow${inClass} h-4 w-4 shrink-0 text-accent-strong`}
+                className={`info-icon-glow${inClass} h-4 w-4 shrink-0 font-semibold text-accent-strong`}
                 style={{ animationDelay: `${BLOCKS_DELAY}ms` }}
               />
-              <span className="font-sans text-label-2xs uppercase tracking-wide text-accent-strong">{lieu.label}</span>
+              <span className="font-sans text-label-2xs uppercase tracking-wide font-semibold text-accent-strong">{lieu.label}</span>
             </div>
             <p className="mt-1 font-accent text-sm leading-snug text-ink">{lieu.value}</p>
           </div>
@@ -71,20 +71,20 @@ export function VenueSection() {
                 <div>
                   <div className="flex items-center gap-1.5">
                     <CalendarIcon
-                      className={`info-icon-glow${inClass} h-4 w-4 shrink-0 text-accent-strong`}
+                      className={`info-icon-glow${inClass} h-4 w-4 shrink-0 font-semibold text-accent-strong`}
                       style={{ animationDelay: `${BLOCKS_DELAY + BLOCKS_STAGGER}ms` }}
                     />
-                    <span className="font-sans text-label-2xs uppercase tracking-wide text-accent-strong">{date.label}</span>
+                    <span className="font-sans text-label-2xs uppercase tracking-wide font-semibold text-accent-strong">{date.label}</span>
                   </div>
                   <p className="mt-1 font-accent text-sm leading-snug text-ink">{date.value}</p>
                 </div>
                 <div className="info-datetime-divider">
                   <div className="flex items-center gap-1.5">
                     <ClockIcon
-                      className={`info-icon-glow${inClass} h-4 w-4 shrink-0 text-accent-strong`}
+                      className={`info-icon-glow${inClass} h-4 w-4 shrink-0 font-semibold text-accent-strong`}
                       style={{ animationDelay: `${BLOCKS_DELAY + BLOCKS_STAGGER}ms` }}
                     />
-                    <span className="font-sans text-label-2xs uppercase tracking-wide text-accent-strong">{heure.label}</span>
+                    <span className="font-sans text-label-2xs uppercase tracking-wide font-semibold text-accent-strong">{heure.label}</span>
                   </div>
                   <p className="mt-1 font-accent text-sm leading-snug text-ink">{heure.value}</p>
                 </div>
@@ -102,25 +102,9 @@ export function VenueSection() {
                 className={`info-icon-glow${inClass} h-4 w-4 shrink-0 text-accent-strong`}
                 style={{ animationDelay: `${BLOCKS_DELAY + 2 * BLOCKS_STAGGER}ms` }}
               />
-              <span className="font-sans text-label-2xs uppercase tracking-wide text-accent-strong">{dressCode.label}</span>
+              <span className="font-sans text-label-2xs uppercase tracking-wide font-semibold text-accent-strong">{dressCode.label}</span>
             </div>
             <p className="mt-1 font-accent text-sm leading-snug text-ink">{dressCode.value}</p>
-          </div>
-
-          {/* Dîner — pleine largeur : phrase longue, doit pouvoir passer à la
-              ligne sans jamais toucher les floraux latéraux. */}
-          <div
-            className={`info-reveal${inClass}`}
-            style={{ animationDelay: `${BLOCKS_DELAY + 3 * BLOCKS_STAGGER}ms` }}
-          >
-            <div className="flex items-center gap-1.5">
-              <DinnerIcon
-                className={`info-icon-glow${inClass} h-4 w-4 shrink-0 text-accent-strong`}
-                style={{ animationDelay: `${BLOCKS_DELAY + 3 * BLOCKS_STAGGER}ms` }}
-              />
-              <span className="font-sans text-label-2xs uppercase tracking-wide text-accent-strong">{diner.label}</span>
-            </div>
-            <p className="mt-1 font-accent text-sm leading-snug text-ink">{diner.value}</p>
           </div>
 
           {/* Soirée */}
@@ -133,7 +117,7 @@ export function VenueSection() {
                 className={`info-icon-glow${inClass} h-4 w-4 shrink-0 text-accent-strong`}
                 style={{ animationDelay: `${BLOCKS_DELAY + 4 * BLOCKS_STAGGER}ms` }}
               />
-              <span className="font-sans text-label-2xs uppercase tracking-wide text-accent-strong">{soiree.label}</span>
+              <span className="font-sans text-label-2xs uppercase tracking-wide font-semibold text-accent-strong">{soiree.label}</span>
             </div>
             <p className="mt-1 font-accent text-sm leading-snug text-ink">{soiree.value}</p>
           </div>

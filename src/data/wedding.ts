@@ -43,12 +43,12 @@ export interface ProgramItem {
 export const programItems: ProgramItem[] = [
   {
     time: '17:30',
-    title: 'Douceur au coucher du soleil',
-    subtitle: 'Accueil au bord du lac autour d’un rafraîchissement, face au coucher du soleil.',
+    title: 'Douce arrivée',
+    subtitle: 'Un doux accueil face aux dernières lueurs du soleil.',
   },
   {
     time: '19:30',
-    title: 'Dîner sous le signe du partage',
+    title: 'Saveurs partagées',
     subtitle: 'Un dîner tunisien, délicatement sublimé d’une touche marocaine.',
   },
   {

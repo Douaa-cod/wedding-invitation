@@ -272,7 +272,7 @@ export function CoverSection({ revealReady = false, onRevealComplete }: CoverSec
             {/* 2. Formule d'invitation — casse normale, douce, jamais de
                 capitales trackées (réservées aux labels UI, voir typography.css) */}
             <RevealItem index={1} active={revealReady} reducedMotion={reducedMotion}>
-              <p className="font-accent text-dusk-sky-text" style={{ fontSize: 'clamp(0.95rem, 3.4vw, 1.05rem)', maxWidth: '85%' }}>
+              <p className="font-semibold font-accent text-dusk-sky-text" style={{ fontSize: 'clamp(0.95rem, 3.4vw, 1.05rem)', maxWidth: '85%' }}>
                 Vous êtes invité(e)s au mariage de
               </p>
             </RevealItem>
@@ -300,7 +300,7 @@ export function CoverSection({ revealReady = false, onRevealComplete }: CoverSec
             {/* 8-9. Lieu */}
             <RevealItem index={4} active={revealReady} reducedMotion={reducedMotion} className="flex flex-col items-center gap-0.5">
               <span className="font-accent text-lg font-medium italic text-ink">À La Perle du Lac</span>
-              <span className="font-sans text-label-xs uppercase tracking-widest text-text-subtle">Tunis</span>
+              <span className=" font-semibold font-sans text-label-xs uppercase tracking-widest text-text-subtle">Tunis</span>
             </RevealItem>
 
             {/* 10-11. Divider, puis route France → Tunisie — juste au-dessus de la citation finale. */}

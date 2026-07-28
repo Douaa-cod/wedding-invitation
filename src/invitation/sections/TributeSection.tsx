@@ -26,7 +26,7 @@ export function TributeSection() {
   return (
     <PaperCard>
       <div
-        className="flex flex-col items-center gap-2.5 text-center"
+        className="flex flex-col items-center gap-1 text-center"
         style={{ boxSizing: 'border-box', paddingInline: '4px' }}
       >
         <CardSubtitle className={`trib-reveal${inClass}`}>Hommage</CardSubtitle>
@@ -89,7 +89,7 @@ export function TributeSection() {
             des lignes harmonieuses, jamais justifié. */}
         <div
           className={`trib-reveal${inClass}`}
-          style={{ animationDelay: `${PARAGRAPH_DELAY}ms`, marginTop: 18 }}
+          style={{ animationDelay: `${PARAGRAPH_DELAY}ms`, marginTop: 12 }}
         >
           <p
             className="font-accent italic font-medium text-ink-800"
@@ -115,9 +115,8 @@ export function TributeSection() {
             className="font-arabic"
             style={{
               fontSize: 'clamp(1.025rem, 3.6vw, 1.205rem)',
-              lineHeight: 2.1,
+              lineHeight: 1.5,
               color: 'var(--color-ink)',
-              maxWidth: '90%',
               letterSpacing: '0.025em',
               margin: '0 auto',
             }}
@@ -145,7 +144,7 @@ export function TributeSection() {
             conservée après la suppression de l'invocation finale. */}
         <span
           className={`trib-reveal${inClass} font-accent text-sm text-divider`}
-          style={{ animationDelay: `${END_ORNAMENT_DELAY}ms`, marginTop: 18 }}
+          style={{ animationDelay: `${END_ORNAMENT_DELAY}ms`, marginTop: 2 }}
           aria-hidden="true"
         >
           &#10022;
