@@ -83,7 +83,6 @@ export const venueInfo: VenueInfoItem[] = [
   { label: 'Date', value: '14 novembre 2026' },
   { label: 'Heure', value: '17h30' },
   { label: 'Dress code', value: 'Chic & Élégant' },
-  { label: 'Dîner', value: 'Tunisien avec une touche marocaine' },
   { label: 'Soirée', value: 'Jusqu’à 23h00' },
 ]
 

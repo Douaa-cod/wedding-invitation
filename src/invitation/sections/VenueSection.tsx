@@ -4,23 +4,23 @@ import { CardSubtitle } from '../CardSubtitle'
 import { CardMainTitle } from '../CardMainTitle'
 import { ActionLink } from '../ActionLink'
 import { ChevronDownIcon } from '../actionIcons'
-import { Divider, CalendarIcon, ClockIcon, DinnerIcon, DressCodeIcon, LocationIcon, MusicNoteIcon } from '@/design-system'
+import { Divider, CalendarIcon, ClockIcon, DressCodeIcon, LocationIcon, MusicNoteIcon } from '@/design-system'
 import { useReducedMotion } from '@/motion/useReducedMotion'
 import { useRevealOnMount } from '@/motion/useRevealOnMount'
 import { venueInfo } from '@/data/wedding'
 
 /* Chronologie (ms) de la révélation — jouée une seule fois après le premier
    rendu (cf. useRevealOnMount) : sous-titre → titre → filet → blocs en
-   cascade (Lieu / Date+Heure / Dress code / Dîner / Soirée) → action finale. */
+   cascade (Lieu / Date+Heure / Dress code / Soirée) → action finale. */
 const TITLE_DELAY = 100
 const DIVIDER_DELAY = 200
 const BLOCKS_DELAY = 300
 const BLOCKS_STAGGER = 90 // 80–100ms demandé
 const BLOCK_REVEAL_DURATION = 600 // durée de info-reveal-in (voir informations-reveal.css)
-const BLOCK_COUNT = 5 // Lieu, Date+Heure, Dress code, Dîner, Soirée
+const BLOCK_COUNT = 4 // Lieu, Date+Heure, Dress code, Soirée
 const BUTTON_DELAY = BLOCKS_DELAY + (BLOCK_COUNT - 1) * BLOCKS_STAGGER + BLOCK_REVEAL_DURATION + 120
 
-const [lieu, date, heure, dressCode, diner, soiree] = venueInfo
+const [lieu, date, heure, dressCode, soiree] = venueInfo
 
 export function VenueSection() {
   const revealed = useRevealOnMount()
@@ -110,7 +110,7 @@ export function VenueSection() {
           {/* Soirée */}
           <div
             className={`info-reveal${inClass}`}
-            style={{ animationDelay: `${BLOCKS_DELAY + 4 * BLOCKS_STAGGER}ms` }}
+            style={{ animationDelay: `${BLOCKS_DELAY + 3 * BLOCKS_STAGGER}ms` }}
           >
             <div className="flex items-center gap-1.5">
               <MusicNoteIcon
