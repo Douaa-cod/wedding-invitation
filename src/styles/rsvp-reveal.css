@@ -39,6 +39,35 @@
   }
 }
 
+/* Bloc de confirmation — remplace le <form> après un envoi réussi (cf.
+   RSVPSection.tsx). Occupe l'espace laissé par le formulaire, sans nouveau
+   fond/bordure/carte : seule la mise en page (centrage, espacement) est
+   déclarée ici, la typographie reste portée par les classes Tailwind/tokens
+   utilisées dans le JSX. Pas de hauteur fixe (min-height uniquement) pour
+   ne jamais déborder de background-card.png sur petit écran. */
+.rsvp-success {
+  width: 100%;
+  max-width: 100%;
+  min-height: 260px;
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.rsvp-success:focus-visible {
+  outline: none;
+}
+
+.rsvp-success__title,
+.rsvp-success__message {
+  margin: 0;
+  max-width: 100%;
+}
+
 /* Champ honeypot antispam ("website") — masqué hors écran, jamais
    display:none/visibility:hidden (que certains robots savent détecter et
    ignorer) : le champ reste dans le flux et ciblable par un bot, mais

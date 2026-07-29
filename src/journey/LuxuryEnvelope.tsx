@@ -113,9 +113,9 @@ export function LuxuryEnvelope({ onSealTap, onCardEntranceStart, onSequenceCompl
     let cancelled = false
     let loaded = 0
     const sources = [
-      '/assets/envelope/envelope-front.png',
-      '/assets/envelope/envelope-open.png',
-      '/assets/envelope/envelope-body.png',
+      '/assets/envelope/envelope-front.webp',
+      '/assets/envelope/envelope-open.webp',
+      '/assets/envelope/envelope-body.webp',
     ]
     sources.forEach((src) => {
       const img = new Image()
@@ -132,9 +132,9 @@ export function LuxuryEnvelope({ onSealTap, onCardEntranceStart, onSequenceCompl
     gsap.set(bodyRef.current,   { opacity: 0 })
     gsap.set(frontRef.current,  { opacity: 1 })
     gsap.set(openRef.current,   { opacity: 0 })
-    /* Le sceau overlay (wax-seal.jpeg) reste invisible en idle — il ne sert
+    /* Le sceau overlay (wax-seal.webp) reste invisible en idle — il ne sert
        qu'à l'effet de chute au clic (voir handleTap). Le battement en idle
-       cible sealPulseRef, une fenêtre recadrée sur cette même image front.png :
+       cible sealPulseRef, une fenêtre recadrée sur cette même image front.webp :
        alignement garanti au pixel près, aucun risque de doublon visuel — et
        c'est aussi lui qui disparaît instantanément (opacity:0, sans fondu,
        sans masque) dès que le sceau commence à tomber. */
@@ -336,7 +336,7 @@ export function LuxuryEnvelope({ onSealTap, onCardEntranceStart, onSequenceCompl
       >
         <div ref={envBackRef} className="relative mx-auto" style={ENVELOPE_BOX_STYLE}>
           {/* [1] Corps — révélé après disparition du rabat */}
-          <img ref={bodyRef} src="/assets/envelope/envelope-body.png" alt="" aria-hidden="true"
+          <img ref={bodyRef} src="/assets/envelope/envelope-body.webp" alt="" aria-hidden="true"
             className="absolute inset-0 h-full w-full" style={{ objectFit: 'contain' }} draggable={false} />
         </div>
       </div>
@@ -353,14 +353,14 @@ export function LuxuryEnvelope({ onSealTap, onCardEntranceStart, onSequenceCompl
       >
         <div ref={envFrontRef} className="pointer-events-auto relative mx-auto" style={ENVELOPE_BOX_STYLE}>
           {/* [3] Enveloppe fermée initiale (le sceau imprimé fait partie de cette image, intacte) */}
-          <img ref={frontRef} src="/assets/envelope/envelope-front.png" alt="Enveloppe fermée"
+          <img ref={frontRef} src="/assets/envelope/envelope-front.webp" alt="Enveloppe fermée"
             className="absolute inset-0 h-full w-full" style={{ objectFit: 'contain', zIndex: 3 }} draggable={false} />
 
           {/* [3.1] Enveloppe mi-ouverte — invisible en idle (opacity:0), révélée par
               un fondu croisé avec [3] dès l'instant où le sceau commence sa chute
               (voir handleTap). Même conteneur, même position/taille/object-fit que
               [3] : alignement pixel-perfect garanti, aucun flash possible. */}
-          <img ref={openRef} src="/assets/envelope/envelope-open.png" alt="" aria-hidden="true"
+          <img ref={openRef} src="/assets/envelope/envelope-open.webp" alt="" aria-hidden="true"
             className="absolute inset-0 h-full w-full" style={{ objectFit: 'contain', zIndex: 3 }} draggable={false} />
 
           {/* [3.4] Instruction — directement au-dessus du sceau (~12px), une ligne si possible */}
@@ -384,7 +384,7 @@ export function LuxuryEnvelope({ onSealTap, onCardEntranceStart, onSequenceCompl
             </div>
           </div>
 
-          {/* [3.7] Fenêtre de pulsation — recadrage de envelope-front.png sur la zone du
+          {/* [3.7] Fenêtre de pulsation — recadrage de envelope-front.webp sur la zone du
               sceau imprimé (mêmes proportions 768×1376) : alignement pixel-perfect
               garanti, aucune seconde image à faire correspondre. Porte le battement
               (échelle + ombre) du sceau. */}
@@ -392,25 +392,25 @@ export function LuxuryEnvelope({ onSealTap, onCardEntranceStart, onSequenceCompl
             position: 'absolute', left: '50%', top: '45%', width: '26%', aspectRatio: '1',
             transform: 'translate(-50%, -50%)', zIndex: 4, borderRadius: '50%', overflow: 'hidden',
             pointerEvents: 'none',
-            backgroundImage: 'url(/assets/envelope/envelope-front.png)',
+            backgroundImage: 'url(/assets/envelope/envelope-front.webp)',
             backgroundSize: '384.615% auto',
             backgroundPosition: '50% 44.15%',
           }} />
 
-          {/* [4] Sceau overlay (wax-seal.jpeg) — invisible en idle, tombe au clic */}
+          {/* [4] Sceau overlay (wax-seal.webp) — invisible en idle, tombe au clic */}
           <div ref={sealRef} aria-hidden="true" style={{
             position: 'absolute', left: '50%', top: '45%', width: '26%', aspectRatio: '1',
             transform: 'translate(-50%, -50%)', zIndex: 5,
             borderRadius: '50%', overflow: 'hidden', pointerEvents: 'none',
           }}>
-            <img src="/assets/envelope/wax-seal.jpeg" alt="" style={{
+            <img src="/assets/envelope/wax-seal.webp" alt="" style={{
               position: 'absolute', top: '50%', left: '50%',
               width: '168%', height: '168%', transform: 'translate(-50%, -50%)', objectFit: 'cover',
             }} draggable={false} />
           </div>
 
           {/* [5] Zone de tap — couvre l'intégralité du sceau visible sur
-              envelope-front.png (mesuré ≈39–61% de la hauteur × ≈33–68% de la
+              envelope-front.webp (mesuré ≈39–61% de la hauteur × ≈33–68% de la
               largeur du conteneur), avec marge de sécurité, tout en garantissant
               ≥44×44px sur mobile. Totalement transparente : aucune forme visible,
               ne change ni la taille ni l'apparence du sceau. */}

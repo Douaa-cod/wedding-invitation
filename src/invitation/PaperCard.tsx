@@ -48,9 +48,8 @@ export interface PaperCardProps {
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 /**
- * Wrapper de section — scroll-animé, fond background-card.png officiel.
- * Zone sécurisée : px-[20%] py-[7%] pour préserver les ornements floraux
- * (même zone que CardShell, qui consomme le même visuel).
+ * Wrapper de section — scroll-animé, fond background-card.webp officiel.
+ * Zone sécurisée : px-[20%] py-[7%] pour préserver les ornements floraux.
  */
 export function PaperCard({
   id, eyebrow, title, children, className, dark, skipScrollReveal,
@@ -78,7 +77,7 @@ export function PaperCard({
     >
       {!dark && (
         <img
-          src="/assets/cards/background-card.png"
+          src="/assets/cards/background-card.webp"
           alt=""
           aria-hidden="true"
           className="absolute inset-0 h-full w-full"

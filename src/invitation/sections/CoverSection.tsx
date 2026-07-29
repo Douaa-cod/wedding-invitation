@@ -196,19 +196,21 @@ function NameHighlight({ index, active, reducedMotion }: { index: number; active
 
       <MagicHearts active={active} startDelay={delay + HEART_START_OFFSET} />
 
-      <span
+      <h1
         className="font-script relative"
         style={{
           ...DECORATIVE_NAME_STYLE,
           fontSize: 'clamp(1.7rem, 7.2vw, 2.8rem)',
           lineHeight: 1.25,
           whiteSpace: 'nowrap',
+          display: 'inline',
+          margin: 0,
         }}
       >
         {couple.groomName}{' '}
         <span style={{ color: GOLD_DEEP, fontWeight: 700, fontSize: '1.12em' }}>&amp;</span>{' '}
         {couple.brideName}
-      </span>
+      </h1>
     </motion.div>
   )
 }

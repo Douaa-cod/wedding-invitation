@@ -36,7 +36,7 @@ export function IvoryCard({ id, children, className }: IvoryCardProps) {
         boxShadow: 'var(--shadow-soft)',
       }}
     >
-      <div className="px-[12%] py-[9%] text-center">{children}</div>
+      <div className="px-[10%] py-[9%] text-center">{children}</div>
     </motion.section>
   )
 }

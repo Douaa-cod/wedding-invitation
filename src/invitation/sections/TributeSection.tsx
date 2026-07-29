@@ -29,7 +29,7 @@ export function TributeSection() {
         className="flex flex-col items-center gap-1 text-center"
         style={{ boxSizing: 'border-box', paddingInline: '4px' }}
       >
-        <CardSubtitle className={`trib-reveal${inClass}`}>Hommage</CardSubtitle>
+        <CardSubtitle className={`trib-reveal${inClass} mb-3`}>Hommage</CardSubtitle>
 
         <div className={`trib-reveal${inClass}`} style={{ animationDelay: `${TITLE_DELAY}ms` }}>
           <CardMainTitle style={{ fontSize: '32px' }}>À nos pères</CardMainTitle>

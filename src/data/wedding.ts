@@ -1,24 +1,14 @@
 export interface Couple {
-  brideFirstName: string
   brideName: string
-  groomFirstName: string
   groomName: string
-  dateLabel: string
-  venueName: string
-  cityLabel: string
 }
 
 /** Date exacte de la cérémonie (18h, heure de Tunis UTC+1) — pour le compteur. */
 export const weddingDate = new Date('2026-11-14T18:00:00+01:00')
 
 export const couple: Couple = {
-  brideFirstName: 'Douaa',
   brideName: 'Douaa',
-  groomFirstName: 'Rachid',
   groomName: 'Rachid',
-  dateLabel: '14 · 11 · 2026',
-  venueName: 'La Perle du Lac',
-  cityLabel: 'Tunis',
 }
 
 export interface TimelineMilestone {
@@ -82,7 +72,7 @@ export const venueInfo: VenueInfoItem[] = [
   { label: 'Lieu', value: 'La Perle du Lac, Tunis' },
   { label: 'Date', value: '14 novembre 2026' },
   { label: 'Heure', value: '17h30' },
-  { label: 'Dress code', value: 'Chic & Élégant' },
+  { label: 'Code vestimentaire', value: 'Chic & Élégant' },
   { label: 'Soirée', value: 'Jusqu’à 23h00' },
 ]
 
