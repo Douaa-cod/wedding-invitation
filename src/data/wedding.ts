@@ -37,12 +37,12 @@ export const programItems: ProgramItem[] = [
     subtitle: 'Un doux accueil face aux dernières lueurs du soleil.',
   },
   {
-    time: '19:30',
+    time: '19:00',
     title: 'Saveurs partagées',
     subtitle: 'Un dîner tunisien, délicatement sublimé d’une touche marocaine.',
   },
   {
-    time: '21:00',
+    time: '20:30',
     title: 'Célébrons ensemble',
     subtitle: 'Musique, rires et danse pour prolonger cette belle soirée.',
   },

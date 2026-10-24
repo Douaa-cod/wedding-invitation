@@ -69,6 +69,7 @@ export function InvitationPage() {
   const [contentRevealed, setContentRevealed] = useState(false)
   const journeyRef = useRef<HTMLDivElement>(null)
   const card1Ref = useRef<HTMLDivElement>(null)
+  const finalCardRef = useRef<HTMLDivElement>(null)
   const paperSlideRef = useRef<HTMLAudioElement | null>(null)
   const paperSlideTlRef = useRef<gsap.core.Timeline | null>(null)
 
@@ -80,6 +81,20 @@ export function InvitationPage() {
   useEffect(() => {
     document.documentElement.dataset.theme = 'lake'
     return () => { delete document.documentElement.dataset.theme }
+  }, [])
+
+  /* Réouverture de l'invitation : le navigateur restaure sinon l'ancienne
+     position de scroll — on repart toujours de la première carte, y compris
+     au retour depuis le cache (bfcache, bouton "précédent"). */
+  useLayoutEffect(() => {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+    window.scrollTo(0, 0)
+
+    function handlePageShow(e: PageTransitionEvent) {
+      if (e.persisted) window.scrollTo(0, 0)
+    }
+    window.addEventListener('pageshow', handlePageShow)
+    return () => window.removeEventListener('pageshow', handlePageShow)
   }, [])
 
   /* Précharge le son du glissement papier + réchauffe le cache HTTP de la
@@ -220,6 +235,7 @@ export function InvitationPage() {
           <FlightJourney
             containerRef={journeyRef}
             card1Ref={card1Ref}
+            finalCardRef={finalCardRef}
             phase={journeyPhase}
             entranceDuration={entranceDuration}
           />
@@ -253,7 +269,9 @@ export function InvitationPage() {
           <ScrollTransition />
           <TributeSection />
           <ScrollTransition />
-          <PhotoSection />
+          <div ref={finalCardRef}>
+            <PhotoSection />
+          </div>
         </div>
       </main>
 

@@ -12,11 +12,21 @@ const DIRECTION_THRESHOLD = 6
 const TURN_DURATION = 0.32
 const TURN_DURATION_REDUCED = 0.15
 
+/** Dégagement vertical (px) entre le point d'atterrissage et le bord bas réel
+ *  de la dernière carte — couvre la taille de l'avion (36px desktop, la plus
+ *  grande des deux tailles) plus une marge de sécurité, pour qu'il se pose
+ *  toujours avant l'ornement bas (CardDivider) et jamais dans le footer. */
+const FINAL_CARD_LANDING_CLEARANCE = 56
+
 export interface FlightJourneyProps {
   /** Conteneur englobant toutes les cartes — sert de référence de scroll (0 = première carte, 1 = dernière). */
   containerRef: RefObject<HTMLDivElement | null>
   /** Le wrapper de la carte 1 — sa hauteur mesurée donne le point de relais exact entre l'entrée et le scroll. */
   card1Ref: RefObject<HTMLDivElement | null>
+  /** Le wrapper de la dernière carte (photo du couple + verset Ar-Rûm) — sa
+   *  position réelle dans le DOM (offsetTop + offsetHeight) donne le point
+   *  d'atterrissage, jamais une hauteur totale approximative de la page. */
+  finalCardRef: RefObject<HTMLDivElement | null>
   /**
    * 'hidden'    — avant le clic sur le sceau, jamais affiché.
    * 'entering'  — la carte 1 remonte : l'avion apparaît à droite et descend
@@ -43,24 +53,35 @@ const PLANE_SHADOW = 'drop-shadow(0 2px 5px rgba(139,36,54,0.35)) drop-shadow(0 
  * pivotant alors vers le haut. Desktop : marge droite des cartes. Mobile :
  * marge de sécurité réduite, sans débordement horizontal.
  */
-export function FlightJourney({ containerRef, card1Ref, phase, entranceDuration }: FlightJourneyProps) {
+export function FlightJourney({ containerRef, card1Ref, finalCardRef, phase, entranceDuration }: FlightJourneyProps) {
   const reducedMotion = useReducedMotion()
   const [card1Height, setCard1Height] = useState(0)
-  const [journeyHeight, setJourneyHeight] = useState(0)
+  const [finalCardTop, setFinalCardTop] = useState(0)
+  const [finalCardHeight, setFinalCardHeight] = useState(0)
   const [direction, setDirection] = useState<'down' | 'up'>('down')
   const lastScrollYRef = useRef(0)
 
   useEffect(() => {
     function measure() {
-      setJourneyHeight(containerRef.current?.offsetHeight ?? 0)
       setCard1Height(card1Ref.current?.offsetHeight ?? 0)
+      /* offsetTop de la dernière carte est relatif à containerRef (son plus
+         proche ancêtre positionné) — même repère que card1Height, donc
+         directement comparable dans le useTransform ci-dessous. */
+      setFinalCardTop(finalCardRef.current?.offsetTop ?? 0)
+      setFinalCardHeight(finalCardRef.current?.offsetHeight ?? 0)
     }
     measure()
     const ro = new ResizeObserver(measure)
+    /* On observe aussi containerRef : lui seul capte un changement de
+       hauteur d'une carte AU-DESSUS de la dernière (ex. contenu qui se
+       réajuste après montage), qui décale l'offsetTop de la dernière carte
+       sans changer sa propre taille — un ResizeObserver posé uniquement sur
+       finalCardRef manquerait ce cas. */
     if (containerRef.current) ro.observe(containerRef.current)
     if (card1Ref.current) ro.observe(card1Ref.current)
+    if (finalCardRef.current) ro.observe(finalCardRef.current)
     return () => ro.disconnect()
-  }, [containerRef, card1Ref])
+  }, [containerRef, card1Ref, finalCardRef])
 
   const { scrollYProgress, scrollY } = useScroll({
     target: containerRef,
@@ -86,8 +107,14 @@ export function FlightJourney({ containerRef, card1Ref, phase, entranceDuration 
 
   /* Relais exact : au scroll=0 (l'instant même où la carte se stabilise),
      la position vaut card1Height — identique au point d'arrivée de la phase
-     d'entrée, donc aucun saut visuel au changement de phase. */
-  const scrollTop = useTransform(scrollYProgress, [0, 1], [card1Height, journeyHeight])
+     d'entrée, donc aucun saut visuel au changement de phase.
+     À scroll=1, l'avion atterrit vers le bas de la dernière carte réelle
+     (photo du couple + verset Ar-Rûm), jamais à la hauteur totale du
+     conteneur : on part de sa position DOM mesurée (finalCardTop +
+     finalCardHeight) et on recule d'une marge fixe pour rester avant son
+     ornement bas et le footer. */
+  const finalCardLandingY = finalCardTop + finalCardHeight - FINAL_CARD_LANDING_CLEARANCE
+  const scrollTop = useTransform(scrollYProgress, [0, 1], [card1Height, finalCardLandingY])
   /* Ne s'efface qu'après la dernière carte atteinte, jamais avant. */
   const scrollFade = useTransform(scrollYProgress, [0, 0.02, 0.95, 1], [1, 1, 1, 0])
 
